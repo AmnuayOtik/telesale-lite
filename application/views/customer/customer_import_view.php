@@ -29,9 +29,22 @@
 
                                     <form id="csvImportForm" enctype="multipart/form-data">
 
+                                         <!-- Csv_file -->
+                                         <div class="form-group">
+                                            <label for="user_id">เลือกพนักงานผู้รับผิดชอบ (Assign to)</label>
+                                            <select name="user_id" id="user_id" class="form-control">
+                                                <?php 
+                                                    foreach($users as $row){
+                                                        echo "<option value=\"".$row->user_id."\">".$row->full_name."</option>";
+                                                    }
+                                                ?>
+                                                
+                                            </select>
+                                        </div>
+
                                         <!-- Csv_file -->
                                         <div class="form-group">
-                                            <label for="csv_file">เลือกไฟล์ CSV</label>
+                                            <label for="csv_file">เลือกไฟล์ CSV ( <a href="<?=base_url('assets/csv_template/customers_sample.csv');?>">ดาวน์โหลดไฟล์ ตัวอย่าง</a> )</label>
                                             <input type="file" class="form-control" style="border-color: #f5b6b6;" id="csv_file" name="csv_file" accept=".csv" placeholder="เลือกไฟล์ csv" required>
                                         </div>
 

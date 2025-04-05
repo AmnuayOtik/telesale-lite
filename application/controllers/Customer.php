@@ -5,7 +5,10 @@ class Customer extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
+        $this->load->model('Users_model');
         $this->load->model('Customer_model');
+        date_default_timezone_set('Asia/Bangkok');
+
     }
 
     public function index()
@@ -36,7 +39,7 @@ class Customer extends CI_Controller {
     }
 
     public function FcCsvImportCustomerModal(){        
-        $data['csv'] = [];
+        $data['users'] = $this->Users_model->get_all_Users();
         $this->load->view('customer/customer_import_view',$data);        
 
     }
@@ -46,7 +49,7 @@ class Customer extends CI_Controller {
         // กำหนดค่าการอัปโหลดไฟล์
         $config['upload_path']   = './assets/upload/'; // โฟลเดอร์ที่ใช้เก็บไฟล์ CSV
         $config['allowed_types'] = 'csv'; // อนุญาตให้อัปโหลดเฉพาะไฟล์ .csv เท่านั้น
-        $config['max_size']      = 2048; // กำหนดขนาดไฟล์สูงสุด 2MB (2048 KB)
+        $config['masize']      = 2048; // กำหนดขนาดไฟล์สูงสุด 2MB (2048 KB)
 
         // โหลดไลบรารีสำหรับอัปโหลดไฟล์
         $this->load->library('upload', $config);
@@ -92,11 +95,13 @@ class Customer extends CI_Controller {
 
         $file = fopen($file_path, "r");
         $header = fgetcsv($file); // อ่านหัวข้อ
-        $expected_columns = 8; // คอลัมน์ที่คาดหวัง
+        $expected_columns = 6; // คอลัมน์ที่คาดหวัง
 
         $errors = [];
         $totalRows = 0;
         $valid_rows = 0;
+
+        $current_datetime = date('Y-m-d H:i:s');
 
         while (($row = fgetcsv($file, 1000, ",")) !== FALSE) {
             $totalRows++;
@@ -126,17 +131,21 @@ class Customer extends CI_Controller {
             if (empty($errors)) {
                 // ถ้าไม่มีข้อผิดพลาด ให้นำเข้าข้อมูล
                 $data = [
-                    'full_name' => $row[0],
-                    'phone_number'     => $row[1],
-                    'email'   => $row[2],
-                    'address'     => $row[3],
-                    'city'      => $row[4],
-                    'state'     => $row[5],
-                    'zip_code'  => $row[6],
-                    'country'  => $row[7]
+                    'customer_id'       => $this->Customer_model->GetNextCustomerId(),
+                    'ref_user_id'       => $row[0],
+                    'full_name'         => $row[1],
+                    'phone_number'      => $row[2],
+                    'line_account'      => $row[3],
+                    'missed_deposit'    => $row[4],
+                    'last_activity'     => $row[5],
+                    'cstatus'           => 'Waiting',
+                    'who_create'        => $this->session->userdata('user_id'),
+                    'date_create'       => $current_datetime,
+                    'who_update'        => $this->session->userdata('user_id'),
+                    'date_update'       => $current_datetime
                 ];
 
-                $this->Customer_model->insert_data($data);
+                $this->Customer_model->add_customer($data);
                 $valid_rows++;
             }
         }
@@ -168,6 +177,28 @@ class Customer extends CI_Controller {
 
     }
 
+    public function FcGetTodayStatByUserID(){
+
+        header('Content-Type: application/json'); 
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            exit(json_encode(['rCode' => 405, 'rMsg' => 'Method Not Allowed']));
+        }
+
+        $user_id = $this->session->userdata('user_id');
+
+        $rResult = $this->Customer_model->get_cstatus_today($user_id);
+
+        if($rResult){
+            $rData = ['rCode'=> 200,'rMsg'=>'Success','rData'=>$rResult ];
+        }else{
+            $rData = ['rCode'=> 500,'rMsg'=>'Error','rData'=> ''];
+        }
+                
+        echo json_encode($rData); 
+
+    }
+
     public function FcSaveOrEdit(){
         
         header('Content-Type: application/json');
@@ -178,37 +209,49 @@ class Customer extends CI_Controller {
 
         $mode = $this->input->post('mode');
 
+
         if($mode != 'new' && $mode != 'edit'){            
             exit(json_encode(['rCode' => 405, 'rMsg' => 'Mode Not Allowed.']));            
         }        
 
         $customer_id = $this->input->post('customer_id');
+        $ref_user_id = $this->input->post('ref_user_id');
         $full_name = $this->input->post('full_name');
         $phone_number = $this->input->post('phone_number');
-        $email = $this->input->post('email');
-        $address = $this->input->post('address');
-        $city = $this->input->post('city');
-        $state = $this->input->post('state');
-        $country = $this->input->post('country');
-        $zip_code = $this->input->post('zip_code');
-        $status = $this->input->post('status');
+        $line_account = $this->input->post('line_account');
+        $missed_deposit = $this->input->post('missed_deposit');        
+        $last_activity = $this->input->post('last_activity');
+        $cstatus = $this->input->post('cstatus');
+
+        $current_datetime = date('Y-m-d H:i:s');
+
+        if($mode == 'new'){
+            $customer_id = $this->Customer_model->GetNextCustomerId();
+        }else{
+            $customer_id = $customer_id;
+        }
+
 
         $Data = [
             'customer_id'=> $customer_id,
+            'ref_user_id'=> $ref_user_id,
             'full_name'=> $full_name,
             'phone_number'=> $phone_number,
-            'email'=> $email,
-            'address'=> $address,
-            'city'=> $city,
-            'state'=> $state,
-            'country'=> $country,
-            'zip_code'=> $zip_code,
-            'status'=> $status
+            'line_account'=> $line_account,
+            'missed_deposit'=> $missed_deposit,            
+            'last_activity'=> $last_activity,
+            'cstatus'=> $cstatus,
+            'who_create' => $this->session->userdata('user_id'),
+            'date_create' => $current_datetime,
+            'who_update' => $this->session->userdata('user_id'),
+            'date_update' => $current_datetime
         ];
 
         if($mode == 'new'){
             $rResult = $this->Customer_model->add_customer($Data);
         }else{
+            // ลบฟิลด์ who_create และ date_create ออกเนื่องจากเป็นการอัปเดทข้อมูล
+            unset($Data['who_create'], $Data['date_create']);
             $rResult = $this->Customer_model->update_customer($customer_id,$Data);
         }
         

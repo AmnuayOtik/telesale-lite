@@ -84,7 +84,7 @@
                     <a href="<?=base_url('Followups');?>" class="nav-link <?= $this->session->userdata('menu_active') === 'followups' ? 'active' : '' ?>">
                     <i class="nav-icon fas fa-th"></i>
                     <p>
-                        งานวันนี้
+                        รายการวันนี้
                         <span class="right badge badge-danger">Telesale</span>
                     </p>
                     </a>

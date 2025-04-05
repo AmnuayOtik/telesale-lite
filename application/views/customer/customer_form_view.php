@@ -6,15 +6,13 @@ $DisabledPermission = isset($mode) && ($mode === 'update' || $mode === 'new') ? 
 
 // เตรียมข้อมูลเพื่อแสดงรายการ
 $x_customer_id = isset($customer['customer_id']) ? $customer['customer_id'] : '';
+$x_ref_user_id = isset($customer['ref_user_id']) ? $customer['ref_user_id'] : '';
 $x_full_name = isset($customer['full_name']) ? $customer['full_name'] : '';
 $x_phone_number = isset($customer['phone_number']) ? $customer['phone_number'] : '';
-$x_email = isset($customer['email']) ? $customer['email'] : '';
-$x_address = isset($customer['address']) ? $customer['address'] : '';
-$x_city = isset($customer['city']) ? $customer['city'] : '';
-$x_state = isset($customer['state']) ? $customer['state'] : '';
-$x_zip_code = isset($customer['zip_code']) ? $customer['zip_code'] : '';
-$country = isset($customer['country']) ? $customer['country'] : '';
-$x_status = isset($customer['status']) ? $customer['status'] : '';
+$x_line_account = isset($customer['line_account']) ? $customer['line_account'] : '';
+$x_missed_deposit = isset($customer['missed_deposit']) ? $customer['missed_deposit'] : '';
+$x_last_activity = isset($customer['last_activity']) ? $customer['last_activity'] : '';
+$x_cstatus = isset($customer['cstatus']) ? $customer['cstatus'] : '';
 
 ?>
 
@@ -35,8 +33,7 @@ $x_status = isset($customer['status']) ? $customer['status'] : '';
                         
                         <div class="card-header p-0 border-bottom-0">                                    
                             <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                                <li class="nav-item" id="cmdOne">
-                        
+                                <li class="nav-item" id="cmdOne">                        
                                     <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="false"><span class="fas fa-user"></span> เพิ่มรายการใหม่</a>
                                 </li>                                       
                             </ul>
@@ -51,65 +48,67 @@ $x_status = isset($customer['status']) ? $customer['status'] : '';
 
                                         <!-- Customer ID (Auto generated) -->
                                         <div class="form-group">
-                                            <label for="customer_id">รหัสลูกค้า</label>
+                                            <label for="customer_id">เลขรายการ (Number)</label>
                                             <input type="hidden" name="mode" id="mode" value="<?=$mode;?>">
                                             <input type="text" class="form-control" style="border-color: #f5b6b6;" id="customer_id" name="customer_id" maxlength="10" value="<?=$x_customer_id;?>" placeholder="Auto" readonly>
                                         </div>
 
-                                        <!-- Full Name -->
-                                        <div class="form-group">
-                                            <label for="full_name">ชื่อลูกค้า</label>
-                                            <input type="text" class="form-control" style="border-color: #f5b6b6;" id="full_name" name="full_name" maxlength="255" value="<?=$x_full_name;?>" placeholder="กรุณากรอกชื่อเต็มของลูกค้า" <?=$Permission;?>>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <!-- Full Name -->
+                                                <div class="form-group">
+                                                    <label for="full_name">ชื่อลูกค้า (Full Name)</label>
+                                                    <input type="text" class="form-control" style="border-color: #f5b6b6;" id="full_name" name="full_name" maxlength="255" value="<?=$x_full_name;?>" placeholder="" <?=$Permission;?>>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <!-- Phone Number -->
+                                                <div class="form-group">
+                                                    <label for="phone_number">เบอร์โทรศัพท์ (Mobile Number)</label>
+                                                    <input type="text" class="form-control" style="border-color: #f5b6b6;" id="phone_number" name="phone_number" maxlength="20" value="<?=$x_phone_number;?>" placeholder="" <?=$Permission;?>>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <!-- ref_user_id -->
+                                                <div class="form-group">
+                                                    <label for="ref_user_id">อ้างอิงรหัสลูกค้า (Reference Number)</label>
+                                                    <input type="text" class="form-control" id="ref_user_id" name="ref_user_id" maxlength="255" value="<?=$x_ref_user_id;?>" placeholder="" <?=$Permission;?>>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <!-- line_account -->
+                                                <div class="form-group">
+                                                    <label for="line_account">บัญชีไลน์ (Line Account)</label>
+                                                    <input type="email" class="form-control" id="line_account" name="line_account" maxlength="100" value="<?=$x_line_account;?>" placeholder="" <?=$Permission;?>>
+                                                </div>
+                                            </div>
+
                                         </div>
 
-                                        <!-- Phone Number -->
+                                        <!-- missed_deposit -->
                                         <div class="form-group">
-                                            <label for="phone_number">เบอร์โทรศัพท์</label>
-                                            <input type="text" class="form-control" style="border-color: #f5b6b6;" id="phone_number" name="phone_number" maxlength="20" value="<?=$x_phone_number;?>" placeholder="กรุณากรอกเบอร์โทรศัพท์" <?=$Permission;?>>
+                                            <label for="missed_deposit">ขาดฝาก (Missed Deposit)</label>                                            
+                                            <input type="text" class="form-control" id="missed_deposit" name="missed_deposit" maxlength="100" value="<?=$x_missed_deposit;?>" placeholder="" <?=$Permission;?>>
                                         </div>
 
-                                        <!-- Email Address -->
+                                        <!-- last_activity -->
                                         <div class="form-group">
-                                            <label for="email">อีเมล</label>
-                                            <input type="email" class="form-control" style="border-color: #f5b6b6;" id="email" name="email" maxlength="100" value="<?=$x_email;?>" placeholder="กรุณากรอกอีเมล" <?=$Permission;?>>
-                                        </div>
-
-                                        <!-- Address -->
-                                        <div class="form-group">
-                                            <label for="address">ที่อยู่</label>
-                                            <textarea class="form-control" id="address" name="address" rows="3" placeholder="กรุณากรอกที่อยู่"><?=$x_address;?></textarea>
-                                        </div>
-
-                                        <!-- City -->
-                                        <div class="form-group">
-                                            <label for="city">เมือง</label>
-                                            <input type="text" class="form-control" id="city" name="city" maxlength="100" value="<?=$x_city;?>" placeholder="กรุณากรอกชื่อเมือง">
-                                        </div>
-
-                                        <!-- State -->
-                                        <div class="form-group">
-                                            <label for="state">รัฐ/จังหวัด</label>
-                                            <input type="text" class="form-control" id="state" name="state" maxlength="100" value="<?=$x_state;?>" placeholder="กรุณากรอกชื่อรัฐ/จังหวัด">
-                                        </div>
-
-                                        <!-- Zip Code -->
-                                        <div class="form-group">
-                                            <label for="zip_code">รหัสไปรษณีย์</label>
-                                            <input type="text" class="form-control" id="zip_code" name="zip_code" maxlength="20" value="<?=$x_zip_code;?>" placeholder="กรุณากรอกรหัสไปรษณีย์">
-                                        </div>
-
-                                        <!-- Country (Default to Thailand) -->
-                                        <div class="form-group">
-                                            <label for="country">ประเทศ</label>
-                                            <input type="text" class="form-control" id="country" name="country" value="Thailand" >
-                                        </div>
+                                            <label for="last_activity">รายการเล่น/เหตุผลครั้งก่อนที่ตาม (Last Activity)</label>
+                                            <input type="text" class="form-control" id="last_activity" name="last_activity" maxlength="100" value="<?=$x_last_activity;?>" placeholder="">
+                                        </div>                                       
 
                                         <!-- Customer Status (Active / Inactive) -->
                                         <div class="form-group">
-                                            <label for="status">สถานะลูกค้า</label>
-                                            <select class="form-control" id="status" name="status">
-                                                <option value="Active" <?= isset($x_status) && $x_status == 'Active' ? 'selected' : ''; ?>>Active</option>
-                                                <option value="Inactive" <?= isset($x_status) && $x_status == 'Inactive' ? 'selected' : ''; ?>>Inactive</option>
+                                            <label for="cstatus">สถานะรายการ (Status)</label>
+                                            <select class="form-control" id="cstatus" name="cstatus">
+                                                <option value="Waiting" <?= isset($x_cstatus) && $x_cstatus == 'Waiting' ? 'selected' : ''; ?>>รอดำเนินการ</option>
+                                                <option value="Finished" <?= isset($x_cstatus) && $x_cstatus == 'Finished' ? 'selected' : ''; ?>>โทรเสร็จสิ้น</option>
+                                                <option value="Postpone" <?= isset($x_cstatus) && $x_cstatus == 'Postpone' ? 'selected' : ''; ?>>ครั้งหน้า</option>
+                                                <option value="Incomplete" <?= isset($x_cstatus) && $x_cstatus == 'Incomplete' ? 'selected' : ''; ?>>ไม่สำเร็จ</option>
                                             </select>
                                         </div>                                        
                                         
@@ -182,6 +181,7 @@ $x_status = isset($customer['status']) ? $customer['status'] : '';
                         
                         $('#CustomerModal').modal('hide'); // ปิด modal หลังจากบันทึกสำเร็จ
                         fcReloadCustomerTable();
+                        FcGetTodayStatByUserID();
 
                     } else {
                         // แสดง SweetAlert เมื่อบันทึกไม่สำเร็จ

@@ -18,7 +18,7 @@ $x_cstatus = isset($user['cstatus']) ? $user['cstatus'] : '';
 ?>
 
 <div class="modal fade" id="UsersModal">
-    <div class="modal-dialog modal-lg" style="height: 100vh;">
+    <div class="modal-dialog modal-lg" style="height: 83vh;">
         <div class="modal-content">
             <div class="modal-header" style="background-color: beige;">
                 <h4 class="modal-title">ฟอร์มบันทึกผู้ใช้งาน | Users Form</h4>

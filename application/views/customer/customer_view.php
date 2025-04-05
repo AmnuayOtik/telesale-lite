@@ -30,9 +30,9 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>100/<small style="font-size:23px;color:yellow;">250</small></h3>
+                    <h3><span id="rWaiting">0</span>/<small style="font-size:23px;color:yellow;" id="rTotal">0</small></h3>
 
-                    <p>จำนวนรายการที่ปิดยอดแล้ว/ทั้งหมด</p>
+                    <p>จำนวนรายการที่โทรแล้ว/ทั้งหมด</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -45,9 +45,9 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>20</h3>
+                    <h3><span id="rFinished">0</span></h3>
 
-                    <p>จำนวนรายการให้ติดต่อกลับ</p>
+                    <p>จำนวนรายการที่ปิดได้</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -60,9 +60,9 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3><?=number_format(285600, 2);?></h3>
+                    <h3><span id="rPostpone">0</span></h3>
 
-                    <p>ยอดปิดวันนี้</p>
+                    <p>จำนวนรายการที่ถูกเลื่อน</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
@@ -75,9 +75,9 @@
                 <!-- small box -->
                 <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3>20</h3>
+                    <h3><span id="rIncomplete">0</span></h3>
 
-                    <p>จำนวนรายการที่ปิดไม่ได้</p>
+                    <p>จำนวนรายการที่ไม่สำเร็จ</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
@@ -130,6 +130,7 @@
         console.log('ห้ามนำไปเผยแพร่โดยไม่ได้รับอนุญาต');
         console.log('ติดต่อ www.otiknetwork.com | 02-538-4378');
         console.log("-----------------------------------------")
+        FcGetTodayStatByUserID();
         fcReloadCustomerTable();
     });
 
@@ -241,6 +242,7 @@
 
                             // โหลดตารางข้อมูลใหม่หลังจากลบ
                             fcReloadCustomerTable();
+                            FcGetTodayStatByUserID();
                             
                         } else {
                             Swal.fire({
@@ -329,5 +331,37 @@
             }
         });
     }
+
+    function FcGetTodayStatByUserID(){
+        
+        $.ajax({
+            url: '<?=base_url('Customer/FcGetTodayStatByUserID');?>',
+            type: 'GET',
+            data: { },             
+            success: function(response) {         
+                
+                if(response.rCode == 200 && response.rMsg == 'Success'){
+
+                    $('#rWaiting').text(response.rData[0].Waiting);
+                    $('#rFinished').text(response.rData[0].Finished);
+                    $('#rPostpone').text(response.rData[0].Postpone);
+                    $('#rIncomplete').text(response.rData[0].Incomplete);
+                    $('#rTotal').text(
+                        parseInt(response.rData[0].Waiting) + 
+                        parseInt(response.rData[0].Finished) + 
+                        parseInt(response.rData[0].Postpone) + 
+                        parseInt(response.rData[0].Incomplete)
+                    );
+                }  
+                            
+            },
+            error: function(xhr, status, error) {                            
+                console.error('Error:', error);                         
+            }
+        });
+
+    }
+
+
 
 </script>
