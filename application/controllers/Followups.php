@@ -20,7 +20,7 @@ class Followups extends CI_Controller {
 
         $data['contents'] = [];
         $data['customer'] = $this->Customer_model->get_customer_by_id($_REQUEST['cid']);
-        $data['header_content'] = ['title'=>'ใบขายสินค้า','right_menu'=>'Sale Order'];
+        $data['header_content'] = ['title'=>'โทรติดต่อลูกค้า','right_menu'=>'Follow Up'];
         $data['content'] = "followups/followups_view";
         $this->load->view('template/main_layout_view', $data);
 
