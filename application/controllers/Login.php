@@ -53,6 +53,7 @@ class Login extends CI_Controller {
             // ตั้งค่า session
             $this->session->set_userdata('user_id', $mResult->user_id);
             $this->session->set_userdata('username', $mResult->username);
+            $this->session->set_userdata('full_name', $mResult->full_name);
     
             $rData = [
                 'rCode' => 200,

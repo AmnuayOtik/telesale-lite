@@ -14,11 +14,11 @@ $x_email = isset($user['email']) ? $user['email'] : '';
 $x_user_type = isset($user['user_type']) ? $user['user_type'] : '';
 $x_cstatus = isset($user['cstatus']) ? $user['cstatus'] : '';
 
-echo $Permission;
+
 ?>
 
 <div class="modal fade" id="UsersModal">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="height: 100vh;">
         <div class="modal-content">
             <div class="modal-header" style="background-color: beige;">
                 <h4 class="modal-title">ฟอร์มบันทึกผู้ใช้งาน | Users Form</h4>
@@ -26,7 +26,7 @@ echo $Permission;
                 <span aria-hidden="false">&times;</span>
                 </button>
             </div>
-        <div class="modal-body" style="max-height:765px; overflow-y: auto;">                            
+        <div class="modal-body" style="max-height:78vh; overflow-y: auto;">                            
             
                 <div class="card-body" style="padding: 14px;">
                     

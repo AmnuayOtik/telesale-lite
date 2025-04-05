@@ -16,19 +16,6 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 
-        <!-- Navbar Search -->
-        <li class="nav-item">
-            <a class="nav-link" href="<?=base_url('Search');?>" role="button">
-            <i class="fas fa-search"></i>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            
-            <a class="nav-link" href="#" role="button">Thai</a>
-            
-        </li>
-
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
             <i class="fas fa-expand-arrows-alt"></i>
@@ -44,7 +31,7 @@
     <!-- Brand Logo -->
     <a href="<?=base_url('Dashboard');?>" class="brand-link">
         <img src="<?=base_url('assets/dist/img/AdminLTELogo.png');?>" alt="Inventory Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">TeleSale System</span>
+        <span class="brand-text font-weight-light">TeleSale-Lite</span>
     </a>
 
     <!-- Sidebar -->
@@ -55,7 +42,7 @@
             <img src="<?=base_url('assets/dist/img/user2-160x160.jpg');?>" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-            <a href="#" class="d-block">xx</a>
+            <a href="#" class="d-block"><?=$this->session->userdata('full_name');?></a>
             </div>
         </div>
 
@@ -97,8 +84,8 @@
                     <a href="<?=base_url('Followups');?>" class="nav-link <?= $this->session->userdata('menu_active') === 'followups' ? 'active' : '' ?>">
                     <i class="nav-icon fas fa-th"></i>
                     <p>
-                        ใบขายสินค้า
-                        <span class="right badge badge-danger">SaleTel</span>
+                        งานวันนี้
+                        <span class="right badge badge-danger">Telesale</span>
                     </p>
                     </a>
                 </li>
@@ -107,12 +94,13 @@
                     <a href="<?=base_url('Customer');?>" class="nav-link <?= $this->session->userdata('menu_active') === 'customer' ? 'active' : '' ?>">
                     <i class="nav-icon fas fa-th"></i>
                         <p>
-                            ลูกค้า
+                            รายการทั้งหมด
                             <span class="right badge badge-danger">Contact</span>
                         </p>
                     </a>
                 </li>
 
+                <!--
                 <li class="nav-item">
                     <a href="<?=base_url('Product');?>" class="nav-link <?= $this->session->userdata('menu_active') === 'product' ? 'active' : '' ?>">
                     <i class="nav-icon fas fa-plus"></i>
@@ -152,6 +140,7 @@
                     </p>
                     </a>
                 </li>
+            -->
 
                 <li class="nav-header">กำหนดค่า</li>
                     <li class="nav-item">
@@ -160,7 +149,7 @@
                         <p>
                             บริหารจัดการ
                             <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right">6</span>
+                            <span class="badge badge-info right">Users</span>
                         </p>
                         </a>
                         <ul class="nav nav-treeview">
@@ -170,12 +159,7 @@
                                 <p>จัดการผู้ใช้</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="<?=base_url('UserLevel');?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>กลุ่มผู้ใช้</p>
-                                </a>
-                            </li>                
+                                         
                         </ul>
                     </li>
                 </li>

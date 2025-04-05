@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TeleSale System | MainPage</title>
+    <title>TeleSale-Lite System | MainPage</title>
     <link rel="stylesheet" href="<?=base_url('assets/plugins/fontawesome-free/css/all.min.css');?>">  
     <link rel="stylesheet" href="<?=base_url('assets/dist/css/adminlte.min.css');?>">
     <link rel="shortcut icon" href="<?=base_url('assets/images/favicon.ico');?>" />
