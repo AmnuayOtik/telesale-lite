@@ -41,26 +41,73 @@
                         <div class="card-header border-0">
                             <h3 class="card-title">แสดงรายละเอียดลูกค้า || Customer Information</h3>
                             <div class="card-tools">                            
-                                <button type="button" class="btn btn-success btn-sm shadow-btn" id="cmdSaveButton" style="border-radius: 25px 25px 25px 25px;"><span class="fas fa-save"></span> บันทึก</button>    
+                                <button type="button" class="btn btn-success btn-sm shadow-btn" id="cmdSaveButton" style="border-radius: 25px 25px 25px 25px;width: 200px;height: 49px;font-size: 23px;"><span class="fas fa-save"></span> บันทึก</button>    
                             </div>
                         </div>
                         <div class="card-body">
 
-                            <div class="col-md-12" style="padding: 10px">
-                                <!-- line_account -->
-                                <div class="form-group">
-                                    <label for="line_account">บันทึกผลการโทร</label>
-                                    <textarea name="call_result" id="call_result" class="form-control" rows="5"></textarea>
-                                </div>
-                            </div>
 
-                            <div class="col-md-12" style="padding: 10px">
-                                <!-- line_account -->
-                                <div class="form-group">
-                                    <label for="line_account">แจ้งผลผ่านทางไลน์</label>
-                                    <textarea name="call_result" id="call_result" class="form-control" rows="5"></textarea>
+                            
+                            <fieldset style="border: 1px solid rgb(169, 166, 170);border-radius: 9px;margin-bottom: 13px;">
+                                <legend style="width: 214px;background-color:rgb(255, 184, 179);border-radius: 5px;padding: 5px;text-align: left;font-size: 18px;font-weight: bold;margin-left: 9px;">&nbsp;&nbsp;&nbsp;ข้อมูลผลการโทรครั้งนี้</legend>
+                                
+                                <div class="col-md-6" style="padding: 10px">
+                                    <!-- line_account -->
+                                    <div class="form-group">
+                                        <label for="line_account">ผลการโทร (Call Result)</label>
+                                        <select name="call_result" id="call_result" class="form-control">
+                                            <option value="">-- เลือกผลการโทร --</option>
+                                            <option value="รับสาย">รับสาย</option>
+                                            <option value="วางรับสาย">วางรับสาย</option>
+                                            <option value="ไม่สะดวกคุย">ไม่สะดวกคุย</option>
+                                            <option value="รับสาย/ไม่พูด">รับสาย/ไม่พูด</option>
+                                            <option value="ตัดสายทิ้ง">ตัดสายทิ้ง</option>
+                                            <option value="ปิดเครื่อง">ปิดเครื่อง</option>
+                                            <option value="ไม่รับสาย">ไม่รับสาย</option>
+                                            <option value="ไม่มีหมายเลขนี้">ไม่มีหมายเลขนี้</option>
+                                            <option value="เบอร์โดนระงับ">เบอร์โดนระงับ</option>
+                                            <option value="เบอร์ปลอม">เบอร์ปลอม</option>
+                                            <option value="ไม่มีเบอร์ติดต่อ">ไม่มีเบอร์ติดต่อ</option>
+                                            <option value="อื่นๆ">อื่นๆ</option>
+                                        </select>                                   
+                                    </div>
                                 </div>
-                            </div>
+
+                                <div class="col-md-12" style="padding: 10px">
+                                    <!-- line_account -->
+                                    <div class="form-group">
+                                        <label for="call_result_note">ระบุผลการโทรอื่นๆ</label>
+                                        <textarea name="call_result_note" id="call_result_note" class="form-control" rows="2"></textarea>
+                                    </div>
+                                </div>
+                                
+                            </fieldset>
+
+                            <fieldset style="border: 1px solid rgb(169, 166, 170);border-radius: 9px;">
+                                <legend style="width: 214px;background-color:rgb(255, 184, 179);border-radius: 5px;padding: 5px;text-align: left;font-size: 18px;font-weight: bold;margin-left: 9px;">&nbsp;&nbsp;&nbsp;แจ้งผลการโทรทางไลน์</legend>
+                                
+                                <div class="col-md-6" style="padding: 10px">
+                                    <!-- line_account -->
+                                    <div class="form-group">
+                                        <label for="line_account">แจ้งผลผ่านทางไลน์ (Line inform)</label>
+                                        <select name="line_account" id="line_account" class="form-control">
+                                            <option value="">-- เลือกผลการโทร --</option>
+                                            <option value="Sms">Sms</option>
+                                            <option value="ไลน์ลูกค้า">ไลน์ลูกค้า</option>                                            
+                                            <option value="อื่นๆ">อื่นๆ</option>
+                                        </select>                                   
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" style="padding: 10px">
+                                    <!-- line_account -->
+                                    <div class="form-group">
+                                        <label for="line_account_note">ระบุแจ้งผลทางไลน์อื่นๆ</label>
+                                        <textarea name="line_account_note" id="line_account_note" class="form-control" rows="2"></textarea>
+                                    </div>
+                                </div>
+                                
+                            </fieldset>
 
                             <div class="col-md-12" style="padding: 10px">
                                 <!-- line_account -->
@@ -153,10 +200,10 @@
 
                                       
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-success shadow-btn" id="startButton" style="border-radius:60px;width: 100%;height: 80px;font-size: 23px;font-weight: bold;"><span class="fas fa-phone-alt"></span> โทร</button>
+                                        <button type="button" class="btn btn-warning shadow-btn" id="startButton" style="border-radius:7px;width: 100%;height: 80px;font-size: 23px;font-weight: bold;"><span class="fas fa-phone-alt"></span> โทร</button>
                                     </div>
 
-                                    <div id="time" style="border:1px solid #ee44ee;border-radius: 60px;padding: 6px;font-size: 39px;text-align: center;margin-bottom:10px;">
+                                    <div id="time" style="border:1px solid #ee44ee;border-radius: 7px;padding: 6px;font-size: 39px;text-align: center;margin-bottom:10px;">
                                         <p style="margin-bottom: 0rem;">เวลา: <span id="timer">00:00:00</span></p>
                                     </div>
                                     
@@ -237,16 +284,16 @@
 
     // ฟังก์ชันคลิกปุ่มเพื่อเริ่มและหยุดจับเวลา
     $('#startButton').click(function() {
-        if ($(this).hasClass('btn-success')) {
+        if ($(this).hasClass('btn-warning')) {
             // ถ้ามีคลาส 'btn-success' (สถานะเริ่ม)
-            $(this).removeClass('btn-success').addClass('btn-danger').html('<span class="fas fa-phone-slash"></span> หยุด');
+            $(this).removeClass('btn-warning').addClass('btn-danger').html('<span class="fas fa-phone-slash"></span> หยุด');
             // เคลียร์เวลาเป็นศูนย์ก่อนเริ่มจับเวลา
             totalSeconds = 0;
             $('#timer').text(formatTime(totalSeconds));
             startTimer(); // เริ่มจับเวลา
         } else {
             // ถ้าไม่มีคลาส 'btn-success' (สถานะหยุด)
-            $(this).removeClass('btn-warning').addClass('btn-success').html('<span class="fas fa-phone-alt"></span> โทร');
+            $(this).removeClass('btn-danger').addClass('btn-warning').html('<span class="fas fa-phone-alt"></span> โทร');
             stopTimer(); // หยุดจับเวลา
         }
     });
