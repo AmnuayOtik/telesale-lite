@@ -9,6 +9,14 @@ class Followups extends CI_Controller {
         $this->load->model('FollowUp_model');
         // Set default Timezone to Bangkok
         date_default_timezone_set('Asia/Bangkok');
+
+        // โหลด config asterisk
+        $this->config->load('asterisk');
+        // ดึงค่าคอนฟิกมาใช้
+        $ami_config = $this->config->item('asterisk');
+        // โหลด library โดยใช้ค่าจาก config
+        $this->load->library('asterisk_ami', $ami_config);
+
     }
 
     public function index()
@@ -20,13 +28,14 @@ class Followups extends CI_Controller {
 
         $data['contents'] = [];
         $data['customer'] = $this->Customer_model->get_customer_by_id($_REQUEST['cid']);
+        $data['call_result_master'] = $this->Customer_model->get_all_call_result_master();
         $data['header_content'] = ['title'=>'โทรติดต่อลูกค้า','right_menu'=>'Follow Up'];
         $data['content'] = "followups/followups_view";
         $this->load->view('template/main_layout_view', $data);
 
 	}
-
-    public function FcSaveOrder() {
+    
+    public function FcSaveOrEdit() {
 
         header('Content-Type: application/json');
 
@@ -35,59 +44,105 @@ class Followups extends CI_Controller {
         }
 
         // รับข้อมูลจาก AJAX
-        $order_header = $this->input->post('order_header');
-        $order_detail = $this->input->post('order_detail');
-        $mode = $this->input->post('mode');
-
-        if (empty($order_header) || empty($order_detail) || empty($mode)) {
+        $customer_id = $this->input->post('customer_id');
+        $call_result = $this->input->post('call_result');
+        $cstatus = $this->input->post('cstatus');
+        $call_result_note = $this->input->post('call_result_note');
+        $notified_via_line = $this->input->post('line_account');
+        $line_account_note = $this->input->post('line_account_note');
+        
+        if (empty($customer_id) || empty($call_result) || empty($cstatus)) {
             exit(json_encode(['rCode' => 405, 'rMsg' => 'Error', 'rData' => 'Empty data.']));
         }
 
         // Create a DateTime object for March 4, 2025
         $current_datetime = date('Y-m-d H:i:s');
 
-        // ทำการตรวจสอบรหัสเอกสารต่อไป (ตรวจสอบจาก Mac order_id + 1 = NextOrderId)
-        if($mode == 'new'){
-            $order_id = $this->FollowUp_model->GetNextOrderId();
-        }else{
-            $order_id = $order_header['order_id'];
-        }
-        
-        // เพิ่ม order_id เข้าไปใน order_header
-        $order_header['order_id'] = $order_id;
+        $rData = [
+            'customer_id' => $customer_id,
+            'call_result' => $call_result,
+            'cstatus' => $cstatus,
+            'call_result_note' => $call_result_note,
+            'notified_via_line' => $notified_via_line,
+            'line_account_note' => $line_account_note,
+            'who_update' => $this->session->userdata('user_id'),
+            'date_update' => $current_datetime
+        ];
     
-        if($mode == 'new'){
-            $insert_order_header = $this->FollowUp_model->insert_order_header($order_header);
-        }else{
-            $insert_order_header = $this->FollowUp_model->update_order_header($order_header);
-        }
+        $rResult = $this->FollowUp_model->update($rData);
         
-        $delete_result = $this->FollowUp_model->delete_order_detail($order_id);
-
-        $i=1;
-        foreach ($order_detail as $product) {
-            $rData_detail = [
-                'order_id'     => $order_id,                
-                'seq_number'   => $i++, 
-                'product_id'   => $product['product_id'],
-                'product_name' => $product['product_name'],
-                'price'        => $product['price'],
-                'quantity'     => $product['quantity'],
-                'discount'     => $product['discount'],
-                'total'        => $product['total'],
-                'who_create'   => $this->session->userdata('user_id'),
-                'date_create'  => $current_datetime,
-                'who_update'   => $this->session->userdata('user_id'),
-                'last_update'  => $current_datetime
-            ];
-                
-            // บันทึกข้อมูลสินค้า
-            $this->FollowUp_model->insert_order_detail($rData_detail);
-        }
-
-        $rData = ['rCode' => 200, 'rMsg' => 'Success', 'rData' => ['order_header'=>$order_header, 'order_detail' => $order_detail]];
+        if($rResult){
+            $rData = ['rCode' => 200, 'rMsg' => 'Success', 'rData' => '']; 
+        }else{
+            $rData = ['rCode' => 400, 'rMsg' => 'Error', 'rData' => ''];
+        }        
+        
         echo json_encode($rData);
             
     }
+
+    /***************************************************************
+    * ฟังก์ชันสำหรับโทรออก
+    /***************************************************************/
+    public function Dial() {
+
+        header('Content-Type: application/json');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            exit(json_encode(['rCode' => 405, 'rMsg' => 'Error', 'rData' => 'Not allow method']));
+        }
+
+        $cid = $this->input->post('cid');        
+
+        $this->FollowUp_model->update_dial_count($cid);
+
+        $rResult = $this->Customer_model->get_customer_by_id($cid);
+        
+        // รับค่าพารามิเตอร์จาก GET หรือ POST
+        $extension = $this->session->userdata('pbx_exten');
+        $number = $rResult['phone_number'];
+        $context = 'DLPN_DialPlan'.$extension;
+        $channel_type = 'PJSIP';
+        
+        // ตรวจสอบว่ามีการส่งค่ามาหรือไม่
+        if (empty($extension) || empty($number)) {
+            $response = [
+                'status' => 'error',
+                'message' => 'กรุณาระบุเบอร์ภายในและเบอร์ปลายทาง'
+            ];
+            $this->output->set_content_type('application/json')->set_output(json_encode($response));
+            return;
+        }
+        
+        // สั่งโทรออก
+        if (!empty($channel_type)) {
+            // ถ้าระบุประเภทช่องสัญญาณ
+            $result = $this->asterisk_ami->originate_call($extension, $number, $context, '', 1, 30, $channel_type);
+        } else {
+            // ถ้าไม่ระบุประเภทช่องสัญญาณ ให้ลองทั้งหมด
+            $result = $this->asterisk_ami->try_originate_call($extension, $number, $context);
+        }
+        
+        // ตรวจสอบผลลัพธ์
+        if (strpos($result, 'Success') !== false) {
+            $response = [
+                'rCode' => 200,                
+                'status' => 'success',
+                'message' => 'กำลังโทรออกจากเบอร์ ' . $extension . ' ไปยัง ' . $number,
+                'response' => $result
+            ];
+        } else {
+            $response = [
+                'rCode' => 400,
+                'status' => 'error',
+                'message' => 'ไม่สามารถโทรออกได้',
+                'response' => $result
+            ];
+        }
+        
+        // ส่งผลลัพธ์กลับเป็น JSON
+        $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
 
 }

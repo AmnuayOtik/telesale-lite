@@ -9,12 +9,16 @@ class Dashboard extends CI_Controller {
 
 	public function index()
 	{		
+        /*
         $this->session->set_userdata('menu_active', 'dashboard');
 
         $data['contents'] = [];
         $data['header_content'] = ['title'=>'Dashboard','right_menu'=>'แดชบอร์ด'];
         $data['content'] = "dashboard/dashboard_view";
         $this->load->view('template/main_layout_view', $data);
+        */
+
+        redirect('Customer');
 	}
 
     public function FcFetchDatatable(){

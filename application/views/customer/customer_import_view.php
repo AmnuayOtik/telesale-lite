@@ -34,11 +34,21 @@
                                             <label for="user_id">เลือกพนักงานผู้รับผิดชอบ (Assign to)</label>
                                             <select name="user_id" id="user_id" class="form-control">
                                                 <?php 
+                                                    $current_user_id = $this->session->userdata('user_id');
+                                                    $is_admin = $this->session->userdata('is_admin');
+
                                                     foreach($users as $row){
-                                                        echo "<option value=\"".$row->user_id."\">".$row->full_name."</option>";
+                                                        if ($is_admin) {
+                                                            // Admin: แสดงทุกชื่อ
+                                                            echo "<option value=\"{$row->user_id}\" " . ($current_user_id == $row->user_id ? "selected" : "") . ">{$row->full_name}</option>";
+                                                        }else{
+                                                            // ไม่ใช่ admin: แสดงเฉพาะชื่อตัวเอง
+                                                            if ($row->user_id == $current_user_id) {
+                                                                echo "<option value=\"{$row->user_id}\" selected>{$row->full_name}</option>";
+                                                            }
+                                                        }
                                                     }
-                                                ?>
-                                                
+                                                ?>                                                
                                             </select>
                                         </div>
 

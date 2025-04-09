@@ -13,6 +13,7 @@ $x_line_account = isset($customer['line_account']) ? $customer['line_account'] :
 $x_missed_deposit = isset($customer['missed_deposit']) ? $customer['missed_deposit'] : '';
 $x_last_activity = isset($customer['last_activity']) ? $customer['last_activity'] : '';
 $x_cstatus = isset($customer['cstatus']) ? $customer['cstatus'] : '';
+$user_id = $this->session->userdata('user_id');
 
 ?>
 
@@ -50,6 +51,7 @@ $x_cstatus = isset($customer['cstatus']) ? $customer['cstatus'] : '';
                                         <div class="form-group">
                                             <label for="customer_id">เลขรายการ (Number)</label>
                                             <input type="hidden" name="mode" id="mode" value="<?=$mode;?>">
+                                            <input type="hidden" name="user_id" id="user_id" value="<?=$user_id;?>">
                                             <input type="text" class="form-control" style="border-color: #f5b6b6;" id="customer_id" name="customer_id" maxlength="10" value="<?=$x_customer_id;?>" placeholder="Auto" readonly>
                                         </div>
 
@@ -65,6 +67,13 @@ $x_cstatus = isset($customer['cstatus']) ? $customer['cstatus'] : '';
                                                 <!-- Phone Number -->
                                                 <div class="form-group">
                                                     <label for="phone_number">เบอร์โทรศัพท์ (Mobile Number)</label>
+                                                    <?php
+                                                        if($this->session->userdata('is_admin') == true){
+                                                            $x_phone_number =$x_phone_number;
+                                                        }else{
+                                                            $x_phone_number = '**********'; 
+                                                        }
+                                                    ?>
                                                     <input type="text" class="form-control" style="border-color: #f5b6b6;" id="phone_number" name="phone_number" maxlength="20" value="<?=$x_phone_number;?>" placeholder="" <?=$Permission;?>>
                                                 </div>
                                             </div>
@@ -99,16 +108,32 @@ $x_cstatus = isset($customer['cstatus']) ? $customer['cstatus'] : '';
                                         <div class="form-group">
                                             <label for="last_activity">รายการเล่น/เหตุผลครั้งก่อนที่ตาม (Last Activity)</label>
                                             <input type="text" class="form-control" id="last_activity" name="last_activity" maxlength="100" value="<?=$x_last_activity;?>" placeholder="">
-                                        </div>                                       
+                                        </div> 
+                                        
+                                        <!-- Assign to -->
+                                        <div class="form-group">
+                                            <label for="cstatus">ผู้รับผิดชอบ (Assign to)</label>
+                                            <select class="form-control" id="user_id" name="user_id">
+                                               <?php foreach($users as $user) {
+                                                    if($user->user_id == $user_id){
+                                                        echo "<option value=\"".$user->user_id."\" selected>".$user->full_name."</option>";
+                                                    }else{
+                                                        echo "<option value=\"".$user->user_id."\">".$user->full_name."</option>";
+                                                    }
+                                                    
+                                               } 
+                                               ?>
+                                            </select>
+                                        </div>  
 
                                         <!-- Customer Status (Active / Inactive) -->
                                         <div class="form-group">
                                             <label for="cstatus">สถานะรายการ (Status)</label>
                                             <select class="form-control" id="cstatus" name="cstatus">
-                                                <option value="Waiting" <?= isset($x_cstatus) && $x_cstatus == 'Waiting' ? 'selected' : ''; ?>>รอดำเนินการ</option>
+                                                <option value="Waiting" <?= isset($x_cstatus) && $x_cstatus == 'Waiting' ? 'selected' : ''; ?>>รอดำเนินการ</option>    
+                                                <option value="Incomplete" <?= isset($x_cstatus) && $x_cstatus == 'Incomplete' ? 'selected' : ''; ?>>ติดต่อลูกค้าไม่สำเร็จ</option>
+                                                <option value="Postpone" <?= isset($x_cstatus) && $x_cstatus == 'Postpone' ? 'selected' : ''; ?>>ขอเลื่อน</option>                                                
                                                 <option value="Finished" <?= isset($x_cstatus) && $x_cstatus == 'Finished' ? 'selected' : ''; ?>>โทรเสร็จสิ้น</option>
-                                                <option value="Postpone" <?= isset($x_cstatus) && $x_cstatus == 'Postpone' ? 'selected' : ''; ?>>ครั้งหน้า</option>
-                                                <option value="Incomplete" <?= isset($x_cstatus) && $x_cstatus == 'Incomplete' ? 'selected' : ''; ?>>ไม่สำเร็จ</option>
                                             </select>
                                         </div>                                        
                                         

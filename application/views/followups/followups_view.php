@@ -41,81 +41,103 @@
                         <div class="card-header border-0">
                             <h3 class="card-title">แสดงรายละเอียดลูกค้า || Customer Information</h3>
                             <div class="card-tools">                            
-                                <button type="button" class="btn btn-success btn-sm shadow-btn" id="cmdSaveButton" style="border-radius: 25px 25px 25px 25px;width: 200px;height: 49px;font-size: 23px;"><span class="fas fa-save"></span> บันทึก</button>    
+                                
                             </div>
                         </div>
                         <div class="card-body">
 
-
+                            <form method="POST" action="Followups/FcSaveOrEdit" name="frmFollowups" id="frmFollowups">
                             
-                            <fieldset style="border: 1px solid rgb(169, 166, 170);border-radius: 9px;margin-bottom: 13px;">
-                                <legend style="width: 214px;background-color:rgb(255, 184, 179);border-radius: 5px;padding: 5px;text-align: left;font-size: 18px;font-weight: bold;margin-left: 9px;">&nbsp;&nbsp;&nbsp;ข้อมูลผลการโทรครั้งนี้</legend>
-                                
-                                <div class="col-md-6" style="padding: 10px">
-                                    <!-- line_account -->
-                                    <div class="form-group">
-                                        <label for="line_account">ผลการโทร (Call Result)</label>
-                                        <select name="call_result" id="call_result" class="form-control">
-                                            <option value="">-- เลือกผลการโทร --</option>
-                                            <option value="รับสาย">รับสาย</option>
-                                            <option value="วางรับสาย">วางรับสาย</option>
-                                            <option value="ไม่สะดวกคุย">ไม่สะดวกคุย</option>
-                                            <option value="รับสาย/ไม่พูด">รับสาย/ไม่พูด</option>
-                                            <option value="ตัดสายทิ้ง">ตัดสายทิ้ง</option>
-                                            <option value="ปิดเครื่อง">ปิดเครื่อง</option>
-                                            <option value="ไม่รับสาย">ไม่รับสาย</option>
-                                            <option value="ไม่มีหมายเลขนี้">ไม่มีหมายเลขนี้</option>
-                                            <option value="เบอร์โดนระงับ">เบอร์โดนระงับ</option>
-                                            <option value="เบอร์ปลอม">เบอร์ปลอม</option>
-                                            <option value="ไม่มีเบอร์ติดต่อ">ไม่มีเบอร์ติดต่อ</option>
-                                            <option value="อื่นๆ">อื่นๆ</option>
-                                        </select>                                   
+                            
+                                <fieldset style="border: 1px solid rgb(169, 166, 170);border-radius: 9px;margin-bottom: 13px;padding: 15px;">
+                                    <legend style="width: 214px;background-color:rgb(255, 184, 179);border-radius: 5px;padding: 5px;text-align: left;font-size: 18px;font-weight: bold;margin-left: 9px;">&nbsp;&nbsp;&nbsp;ข้อมูลผลการโทรครั้งนี้</legend>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6" style="padding: 10px">
+                                            <!-- line_account -->
+                                            <div class="form-group">
+                                                <label for="line_account">ผลการโทร (Call Result)</label>
+                                                
+                                                <input type="hidden" name="customer_id" id="customer_id" value="<?=$customer['customer_id'];?>" readonly>                                                                                  
+                                                <select name="call_result" id="call_result" class="form-control">
+                                                    <option value="">-- เลือกผลการโทร --</option>
+                                                    <?php 
+                                                        foreach($call_result_master as $row){
+
+                                                            if($customer['call_result'] == $row['call_name']){
+                                                                echo "<option value=\"".$row['call_name']."\" selected>" . $row['call_name'] . "</option>";
+                                                            }else{
+                                                                echo "<option value=\"".$row['call_name']."\">".$row['call_name']."</option>";
+                                                            }
+                                                        }
+                                                    ?>
+                                                   
+                                                </select>                                   
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="padding: 10px">
+
+                                            <!-- line_account -->
+                                            <div class="form-group">
+                                                <label for="cstatus">สถานะรายการ (Status)</label>
+                                                <select class="form-control" id="cstatus" name="cstatus">
+                                                    <option value="Waiting" <?= isset($customer['cstatus']) && $customer['cstatus'] == 'Waiting' ? 'selected' : ''; ?>>รอดำเนินการ</option>
+                                                    <option value="Incomplete" <?= isset($customer['cstatus']) && $customer['cstatus'] == 'Incomplete' ? 'selected' : ''; ?>>ติดต่อลูกค้าไม่สำเร็จ</option>
+                                                    <option value="Postpone" <?= isset($customer['cstatus']) && $customer['cstatus'] == 'Postpone' ? 'selected' : ''; ?>>ขอเลื่อน</option>
+                                                    <option value="Finished" <?= isset($customer['cstatus']) && $customer['cstatus'] == 'Finished' ? 'selected' : ''; ?>>โทรเสร็จสิ้น</option>
+                                                </select>
+                                            </div> 
+
+                                        </div>
                                     </div>
-                                </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- line_account -->
+                                            <div class="form-group">
+                                                <label for="call_result_note">ระบุผลการโทรอื่นๆ</label>
+                                                <textarea name="call_result_note" id="call_result_note" class="form-control" rows="2"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                </fieldset>
+
+                                <fieldset style="border: 1px solid rgb(169, 166, 170);border-radius: 9px;padding: 15px;">
+                                    <legend style="width: 214px;background-color:rgb(255, 184, 179);border-radius: 5px;padding: 5px;text-align: left;font-size: 18px;font-weight: bold;margin-left: 9px;">&nbsp;&nbsp;&nbsp;แจ้งผลการโทรทางไลน์</legend>
+                                    
+                                    <div class="col-md-6" style="padding: 10px">
+                                        <!-- line_account -->
+                                        <div class="form-group">
+                                            <label for="line_account">แจ้งผลผ่านทางไลน์ (Line inform)</label>
+                                            <select name="line_account" id="line_account" class="form-control">
+                                                <option value="">-- เลือกผลการโทร --</option>
+                                                <option value="Sms">Sms</option>
+                                                <option value="ไลน์ลูกค้า">ไลน์ลูกค้า</option>                                            
+                                                <option value="อื่นๆ">อื่นๆ</option>
+                                            </select>                                   
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12" style="padding: 10px">
+                                        <!-- line_account -->
+                                        <div class="form-group">
+                                            <label for="line_account_note">ระบุแจ้งผลทางไลน์อื่นๆ</label>
+                                            <textarea name="line_account_note" id="line_account_note" class="form-control" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                    
+                                </fieldset>
 
                                 <div class="col-md-12" style="padding: 10px">
                                     <!-- line_account -->
                                     <div class="form-group">
-                                        <label for="call_result_note">ระบุผลการโทรอื่นๆ</label>
-                                        <textarea name="call_result_note" id="call_result_note" class="form-control" rows="2"></textarea>
+                                        <label for="note">หมายเหตุ</label>
+                                        <textarea name="note" id="note" class="form-control" rows="5"></textarea>
                                     </div>
                                 </div>
-                                
-                            </fieldset>
-
-                            <fieldset style="border: 1px solid rgb(169, 166, 170);border-radius: 9px;">
-                                <legend style="width: 214px;background-color:rgb(255, 184, 179);border-radius: 5px;padding: 5px;text-align: left;font-size: 18px;font-weight: bold;margin-left: 9px;">&nbsp;&nbsp;&nbsp;แจ้งผลการโทรทางไลน์</legend>
-                                
-                                <div class="col-md-6" style="padding: 10px">
-                                    <!-- line_account -->
-                                    <div class="form-group">
-                                        <label for="line_account">แจ้งผลผ่านทางไลน์ (Line inform)</label>
-                                        <select name="line_account" id="line_account" class="form-control">
-                                            <option value="">-- เลือกผลการโทร --</option>
-                                            <option value="Sms">Sms</option>
-                                            <option value="ไลน์ลูกค้า">ไลน์ลูกค้า</option>                                            
-                                            <option value="อื่นๆ">อื่นๆ</option>
-                                        </select>                                   
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12" style="padding: 10px">
-                                    <!-- line_account -->
-                                    <div class="form-group">
-                                        <label for="line_account_note">ระบุแจ้งผลทางไลน์อื่นๆ</label>
-                                        <textarea name="line_account_note" id="line_account_note" class="form-control" rows="2"></textarea>
-                                    </div>
-                                </div>
-                                
-                            </fieldset>
-
-                            <div class="col-md-12" style="padding: 10px">
-                                <!-- line_account -->
-                                <div class="form-group">
-                                    <label for="line_account">หมายเหตุ</label>
-                                    <textarea name="call_result" id="call_result" class="form-control" rows="5"></textarea>
-                                </div>
-                            </div>
+                            </form>
 
 
                         </div>
@@ -193,21 +215,28 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><span class="fas fa-phone-alt"></span></span>
                                                 </div>
-                                                <input type="text" class="form-control" id="phone" name="phone" value="<?=$customer['phone_number'];?>" readonly>
+                                                <?php if($this->session->userdata('is_admin') != true){?>
+                                                    <input type="text" class="form-control" id="phone" name="phone" value="**********" readonly>
+                                                <?php }else{ ?>
+                                                    <input type="text" class="form-control" id="phone" name="phone" value="<?=$customer['phone_number'];?>" readonly>
+                                                <?php } ?>
+
+                                                
                                             </div>
                                         </div>                                       
                                     </div> 
 
                                       
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-warning shadow-btn" id="startButton" style="border-radius:7px;width: 100%;height: 80px;font-size: 23px;font-weight: bold;"><span class="fas fa-phone-alt"></span> โทร</button>
+                                        <button type="button" class="btn btn-warning shadow-btn" id="startButton" data-cid="<?=$customer['customer_id'];?>" style="border-radius:7px;width: 100%;height: 80px;font-size: 23px;font-weight: bold;margin-bottom: 15px;"><span class="fas fa-phone-alt"></span> โทร</button>
+                                        <button type="button" class="btn btn-success shadow-btn" onclick="FcSaveOrEdit();" style="border-radius:7px;width: 100%;height: 80px;font-size: 23px;font-weight: bold;"><span class="fas fa-save"></span> บันทึกข้อมูล</button>
                                     </div>
 
-                                    <div id="time" style="border:1px solid #ee44ee;border-radius: 7px;padding: 6px;font-size: 39px;text-align: center;margin-bottom:10px;">
+                                    <div id="time" style="border:1px solid #ee44ee;border-radius: 7px;padding: 6px;font-size: 39px;text-align: center;margin-bottom:10px;display:none;">
                                         <p style="margin-bottom: 0rem;">เวลา: <span id="timer">00:00:00</span></p>
                                     </div>
                                     
-                                    
+                                    <!--
                                     <div class="row">                                    
                                         <div class="col-md-12">
                                             <div class="card" style="padding: 0px;">
@@ -224,6 +253,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    -->
 
                                 </div>
                             </div>
@@ -284,18 +314,98 @@
 
     // ฟังก์ชันคลิกปุ่มเพื่อเริ่มและหยุดจับเวลา
     $('#startButton').click(function() {
-        if ($(this).hasClass('btn-warning')) {
-            // ถ้ามีคลาส 'btn-success' (สถานะเริ่ม)
-            $(this).removeClass('btn-warning').addClass('btn-danger').html('<span class="fas fa-phone-slash"></span> หยุด');
-            // เคลียร์เวลาเป็นศูนย์ก่อนเริ่มจับเวลา
-            totalSeconds = 0;
-            $('#timer').text(formatTime(totalSeconds));
-            startTimer(); // เริ่มจับเวลา
-        } else {
-            // ถ้าไม่มีคลาส 'btn-success' (สถานะหยุด)
-            $(this).removeClass('btn-danger').addClass('btn-warning').html('<span class="fas fa-phone-alt"></span> โทร');
-            stopTimer(); // หยุดจับเวลา
-        }
+        const cid = $(this).data('cid');
+        console.log('CID:', cid);
+        Dial(cid);
     });
 
+
+    function Dial(cid = ''){
+        
+        if(cid == ''){
+            toastr.error('ไม่พบข้อมูลลูกค้า','เกิดข้อผิดพลาด');
+            return false;
+        }
+
+        console.log('กำลังโทรออกไปหาลูกค้า : ' + cid);
+
+        // ส่งข้อมูลไปยังเซิร์ฟเวอร์ผ่าน AJAX
+        $.ajax({
+            url: '<?=base_url('Followups/Dial');?>',
+            type: 'POST', // ใช้วิธี POST ในการส่งข้อมูล
+            data: { cid : cid }, // ส่งข้อมูลที่แปลงเป็น query string
+            dataType: 'json', // ให้ jQuery แปลง response เป็น JSON อัตโนมัติ
+            success: function(response) {
+                try {
+                    // ตรวจสอบว่าการบันทึกข้อมูลสำเร็จหรือไม่
+                    if (response.rCode == 200 && response.status === 'success') {
+                        toastr.success('ระบบกำลังโทรออกหาลูกค้า','แสดงการโทรออก');
+                    } else {
+                        toastr.error('ไม่สามารถโทรออกได้','เกิดข้อผิดพลาด');
+                    }
+                } catch (error) {
+                    // จัดการข้อผิดพลาดหากมีปัญหาในการแปลง JSON
+                    console.error('JSON Error:', error);
+                    toastr.error('ไม่สามารถประมวลผลข้อมูลจากเซิร์ฟเวอร์ได้','เกิดข้อผิดพลาด');
+                }
+            },
+            error: function(xhr, status, error) {
+                // จัดการข้อผิดพลาดหากมีปัญหาในการเชื่อมต่อ AJAX
+                console.error('AJAX Error:', error);
+                toastr.error('เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์','เกิดข้อผิดพลาด');
+            }
+        });
+
+    }
+
+    function FcSaveOrEdit(){
+
+        const formData = $('#frmFollowups').serialize();
+        const call_result = $('#call_result').val();
+        const cstatus = $('#cstatus').val();
+
+        if (!call_result || !cstatus) {
+            toastr.error('กรุณากรอกข้อมูลให้ครบถ้วน <br> Please fill in all required fields.');
+            return;
+        }
+
+        $.ajax({
+            url: $('#frmFollowups').attr('action'),
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                try {
+                    // ตรวจสอบว่าการบันทึกข้อมูลสำเร็จหรือไม่
+                    if (response.rCode == 200 && response.rMsg === 'Success') {
+                        // แสดง SweetAlert เมื่อบันทึกสำเร็จ
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'บันทึกสำเร็จ!',
+                            text: 'ข้อมูลลูกค้าถูกบันทึกแล้ว',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                       // แสดง SweetAlert เมื่อบันทึกไม่สำเร็จ
+                       Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด!',
+                            text: 'ไม่สามารถบันทึกข้อมูลลูกค้าได้',
+                        });
+                    }
+                } catch (error) {
+                    // จัดการข้อผิดพลาดหากมีปัญหาในการแปลง JSON
+                    console.error('JSON Error:', error);
+                    toastr.error('ไม่สามารถประมวลผลข้อมูลจากเซิร์ฟเวอร์ได้','เกิดข้อผิดพลาด');
+                }
+            },
+            error: function(xhr, status, error) {
+                // จัดการข้อผิดพลาดหากมีปัญหาในการเชื่อมต่อ AJAX
+                console.error('AJAX Error:', error);
+                toastr.error('เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์','เกิดข้อผิดพลาด');
+            }
+        });
+
+    }
 </script>

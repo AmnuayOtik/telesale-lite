@@ -48,9 +48,9 @@
 
         <div class="form-inline">
             <div class="input-group" data-widget="sidebar-search">
-            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" disabled>
             <div class="input-group-append">
-                <button class="btn btn-sidebar">
+                <button class="btn btn-sidebar" disabled>
                 <i class="fas fa-search fa-fw"></i>
                 </button>
             </div>
@@ -61,6 +61,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                 <!--
                 <li class="nav-item <?= $this->session->userdata('menu_active') === 'dashboard' ? 'menu-is-opening menu-open' : '' ?>">
                     <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -78,24 +79,15 @@
                         </a>
                     </li>                            
                     </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="<?=base_url('Followups');?>" class="nav-link <?= $this->session->userdata('menu_active') === 'followups' ? 'active' : '' ?>">
-                    <i class="nav-icon fas fa-th"></i>
-                    <p>
-                        รายการวันนี้
-                        <span class="right badge badge-danger">Telesale</span>
-                    </p>
-                    </a>
-                </li>
+                </li>     
+                -->          
 
                 <li class="nav-item">
                     <a href="<?=base_url('Customer');?>" class="nav-link <?= $this->session->userdata('menu_active') === 'customer' ? 'active' : '' ?>">
                     <i class="nav-icon fas fa-th"></i>
                         <p>
-                            รายการทั้งหมด
-                            <span class="right badge badge-danger">Contact</span>
+                            รายการโทร
+                            <span class="right badge badge-danger">Telesale</span>
                         </p>
                     </a>
                 </li>
@@ -142,6 +134,7 @@
                 </li>
             -->
 
+                <?php if($this->session->userdata('is_admin')==true){?>
                 <li class="nav-header">กำหนดค่า</li>
                     <li class="nav-item">
                         <a href="Setting" class="nav-link">
@@ -163,10 +156,13 @@
                         </ul>
                     </li>
                 </li>
+                <?php } ?>
+                
+
 
                 <li class="nav-header">การใช้งาน</li>
                     <li class="nav-item">
-                        <a href="<?=base_url('Logout');?>" class="nav-link">
+                        <a href="<?=base_url('Login/FcLogout');?>" class="nav-link">
                         <i class="nav-icon far fa-circle text-danger"></i>
                         <p class="text">ออกจากระบบ</p>
                         </a>

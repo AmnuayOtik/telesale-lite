@@ -16,12 +16,35 @@ class Customer extends CI_Controller {
 
         $this->session->set_userdata('menu_active', 'customer');
 
+        if(empty($this->session->userdata('date_filter'))){
+            $this->session->set_userdata('date_filter','today');
+        }
+
         $data['contents'] = [];
         $data['header_content'] = ['title'=>'ข้อมูลลูกค้า','right_menu'=>'ลูกค้า'];
         $data['content'] = "customer/customer_view";
         $this->load->view('template/main_layout_view', $data);
 
 	}
+
+    public function Search(){
+
+        $filter = $this->input->post('date_filter');
+        $filter_from_date = $this->input->post('from_date');
+        $filter_to_date = $this->input->post('to_date');
+
+        $this->session->set_userdata('date_filter',$filter);
+        $this->session->set_userdata('from_date',$filter_from_date);
+        $this->session->set_userdata('to_date',$filter_to_date);
+
+        echo json_encode(['date_filter'=> $filter]);
+        exit();
+
+    }
+
+    public function FcFetchSearchModal(){
+        $this->load->view('customer/customer_search_view');
+    }
 
     public function FcFetchCustomerModal(){
         
@@ -34,6 +57,7 @@ class Customer extends CI_Controller {
         }
 
         $data['mode'] = $this->input->post('mode');
+        $data['users'] = $this->Users_model->get_all_Users();        
         
         $this->load->view('customer/customer_form_view',$data);        
     }
@@ -44,7 +68,17 @@ class Customer extends CI_Controller {
 
     }
 
-    public function Upload_csv(){
+    public function Upload_csv(){        
+
+        $user_id = $this->input->post('user_id');
+
+        // ตรวจสอบว่า user_id ต้องไม่ว่าง
+        if (empty($user_id)) {
+            exit(json_encode(['rCode' => 405, 'rMsg' => 'User id must not be empty.']));
+        }
+
+        // เก็บ user_id ไว้ใน session สำหรับนำไปใช้ตอน import
+        $this->session->set_userdata('user_id_for_import', $user_id);
 
         // กำหนดค่าการอัปโหลดไฟล์
         $config['upload_path']   = './assets/upload/'; // โฟลเดอร์ที่ใช้เก็บไฟล์ CSV
@@ -139,6 +173,7 @@ class Customer extends CI_Controller {
                     'missed_deposit'    => $row[4],
                     'last_activity'     => $row[5],
                     'cstatus'           => 'Waiting',
+                    'user_id'           => $this->session->userdata('user_id_for_import'),
                     'who_create'        => $this->session->userdata('user_id'),
                     'date_create'       => $current_datetime,
                     'who_update'        => $this->session->userdata('user_id'),
@@ -223,6 +258,8 @@ class Customer extends CI_Controller {
         $last_activity = $this->input->post('last_activity');
         $cstatus = $this->input->post('cstatus');
 
+        $user_id = $this->input->post('user_id');
+
         $current_datetime = date('Y-m-d H:i:s');
 
         if($mode == 'new'){
@@ -231,6 +268,11 @@ class Customer extends CI_Controller {
             $customer_id = $customer_id;
         }
 
+        if(empty($user_id)){
+            $user_id = $this->session->userdata('user_id');
+        }else{
+            $user_id = $this->input->post('user_id');
+        }
 
         $Data = [
             'customer_id'=> $customer_id,
@@ -241,11 +283,16 @@ class Customer extends CI_Controller {
             'missed_deposit'=> $missed_deposit,            
             'last_activity'=> $last_activity,
             'cstatus'=> $cstatus,
+            'user_id' => $user_id,            
             'who_create' => $this->session->userdata('user_id'),
             'date_create' => $current_datetime,
             'who_update' => $this->session->userdata('user_id'),
             'date_update' => $current_datetime
         ];
+
+        if($mode == 'edit' && $this->session->userdata('is_admin') != true){
+            unset($Data['phone_number']);
+        }
 
         if($mode == 'new'){
             $rResult = $this->Customer_model->add_customer($Data);

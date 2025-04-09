@@ -37,42 +37,21 @@ class FollowUp_model extends CI_Model {
 
     }
 
-    public function insert_order_header($rData = [])
+    public function update($rData = [])
     {
-        return $this->db->insert('order_header', $rData);
+        $this->db->where('customer_id', $rData['customer_id']);
+        return $this->db->update('customers', $rData);
     }
 
-    public function insert_order_detail($rData = [])
-    {
-        return $this->db->insert('order_detail', $rData);
+    public function update_dial_count($customer_id) {
+        $this->db->set('call_count', 'IFNULL(call_count, 0) + 1', false);
+        $this->db->set('date_update', date('Y-m-d H:i:s'));   // ตั้งค่าวันที่อัปเดต
+        $this->db->set('call_datetime', date('Y-m-d H:i:s'));   // ตั้งค่าวันที่อัปเดต
+        $this->db->set('who_update', $this->session->userdata('user_id')); // ดึงชื่อผู้ใช้งานจาก session
+        $this->db->where('customer_id', $customer_id);
+        return $this->db->update('customers');
     }
-
-    public function update_order_header($rData = [])
-    {
-        $this->db->where('order_id', $rData['order_id']);
-        return $this->db->update('order_header', $rData);
-    }
-
-    public function delete_order_detail($order_id = null) {
-        // ตรวจสอบว่า 'order_id' มีอยู่ในข้อมูลที่ส่งมา
-        if (!isset($order_id) || empty($order_id)) {
-            return false;  // หากไม่มี 'order_id' คืนค่าผลลัพธ์เป็น false
-        }
     
-        // ลบข้อมูลเก่าตาม 'order_id'
-        $this->db->where('order_id', $order_id);
-        
-        // ลบข้อมูลจากตาราง 'order_detail'
-        $result = $this->db->delete('order_detail');
-
-        // ตรวจสอบผลลัพธ์ของการลบ
-        if ($result) {
-            return true;  // ลบสำเร็จ
-        } else {
-            return false;  // หากลบไม่สำเร็จ
-        }
-    }
-
     
 }
 

@@ -3,7 +3,7 @@
         <div class="float-right d-none d-sm-block">
         <b>Version</b> 0.1.0
         </div>
-        <strong>Copyright &copy; 2014-2021 <a href="https://www.otiknetwork.com">บริษัท โอติก เน็ตเวิร์ค จำกัด</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2014-2021 สงวนลิขสิทธิ์ห้ามคัดลอกหรือเผยแพร่ก่อนได้รับอนุญาต</strong> All rights reserved.
     </footer>
 
   <!-- Control Sidebar -->

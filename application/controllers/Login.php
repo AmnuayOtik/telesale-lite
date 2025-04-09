@@ -54,6 +54,13 @@ class Login extends CI_Controller {
             $this->session->set_userdata('user_id', $mResult->user_id);
             $this->session->set_userdata('username', $mResult->username);
             $this->session->set_userdata('full_name', $mResult->full_name);
+            $this->session->set_userdata('pbx_exten', $mResult->business_phone);
+
+            if($mResult->user_type == '1'){
+                $this->session->set_userdata('is_admin', true);
+            }else{
+                $this->session->set_userdata('is_admin', false);
+            }
     
             $rData = [
                 'rCode' => 200,
@@ -76,9 +83,8 @@ class Login extends CI_Controller {
     }
 
     public function FcLogout() {
-        header('Content-Type: application/json');
-    
-        // ทำลาย Session ทั้งหมด
+
+        // ทำลาย Session ของ CodeIgniter
         $this->session->sess_destroy();
     
         // ล้าง Cookies ที่เกี่ยวข้อง
@@ -86,12 +92,16 @@ class Login extends CI_Controller {
             setcookie(session_name(), '', time() - 3600, '/');
         }
     
-        // สร้าง Session ใหม่ ป้องกัน Session Hijacking
-        session_regenerate_id(true);
+        // หากมีการใช้ native session ด้วย ให้จัดการเพิ่ม
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
     
-        echo json_encode(['rCode' => 200, 'rMsg' => 'Logout successful']);
+        // เปลี่ยนเส้นทางหลัง logout
+        redirect('Login'); // หรือ route ที่ต้องการ
         exit;
     }
+    
     
 
 }

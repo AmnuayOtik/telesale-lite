@@ -1,0 +1,182 @@
+[2025-04-06 23:38:35]
+Response: Success
+ActionID: ami_1_1743957311
+EventList: start
+Message: Channels will follow
+
+
+
+[2025-04-06 23:40:04]
+Response: Success
+ActionID: ami_1_1743957311
+EventList: start
+Message: Channels will follow
+
+
+
+[2025-04-06 23:40:04]
+Response: Success
+
+[2025-04-06 23:40:04]
+ActionID: ami_1_1743957311
+
+[2025-04-06 23:40:04]
+EventList: start
+
+[2025-04-06 23:40:04]
+Message: Channels will follow
+
+[2025-04-06 23:40:04]
+
+
+[2025-04-06 23:40:04]
+
+
+[2025-04-06 23:42:30]
+Response: Success
+ActionID: ami_1_1743957750
+EventList: start
+Message: Channels will follow
+
+
+
+[2025-04-06 23:44:09]
+Response: Success
+ActionID: ami_1_1743957849
+EventList: start
+Message: Channels will follow
+
+
+
+[2025-04-06 23:44:09]
+Response: Success
+
+[2025-04-06 23:44:09]
+ActionID: ami_1_1743957849
+
+[2025-04-06 23:44:09]
+EventList: start
+
+[2025-04-06 23:44:09]
+Message: Channels will follow
+
+[2025-04-06 23:44:09]
+
+
+[2025-04-06 23:44:09]
+
+
+[2025-04-06 23:47:55]
+ActionID: ami_2_1743958075
+Message: Authentication accepted
+
+Event: FullyBooted
+Privilege: system,all
+Status: Fully Booted
+
+Response: Success
+
+
+[2025-04-06 23:47:55]
+ActionID: ami_2_1743958075
+
+[2025-04-06 23:47:55]
+Message: Authentication accepted
+
+[2025-04-06 23:47:55]
+
+
+[2025-04-06 23:47:55]
+Event: FullyBooted
+
+[2025-04-06 23:47:55]
+Privilege: system,all
+
+[2025-04-06 23:47:55]
+Status: Fully Booted
+
+[2025-04-06 23:47:55]
+
+
+[2025-04-06 23:47:55]
+Response: Success
+
+[2025-04-06 23:47:55]
+
+
+[2025-04-06 23:47:58]
+ActionID: ami_2_1743958078
+Message: Authentication accepted
+
+Event: FullyBooted
+Privilege: system,all
+Status: Fully Booted
+
+Response: Success
+
+
+[2025-04-06 23:47:58]
+ActionID: ami_2_1743958078
+
+[2025-04-06 23:47:58]
+Message: Authentication accepted
+
+[2025-04-06 23:47:58]
+
+
+[2025-04-06 23:47:58]
+Event: FullyBooted
+
+[2025-04-06 23:47:58]
+Privilege: system,all
+
+[2025-04-06 23:47:58]
+Status: Fully Booted
+
+[2025-04-06 23:47:58]
+
+
+[2025-04-06 23:47:58]
+Response: Success
+
+[2025-04-06 23:47:58]
+
+
+[2025-04-06 23:50:43]
+ActionID: ami_2_1743958243
+Message: Authentication accepted
+
+Event: FullyBooted
+Privilege: system,all
+Status: Fully Booted
+
+Response: Success
+
+
+[2025-04-06 23:50:43]
+ActionID: ami_2_1743958243
+
+[2025-04-06 23:50:43]
+Message: Authentication accepted
+
+[2025-04-06 23:50:43]
+
+
+[2025-04-06 23:50:43]
+Event: FullyBooted
+
+[2025-04-06 23:50:43]
+Privilege: system,all
+
+[2025-04-06 23:50:43]
+Status: Fully Booted
+
+[2025-04-06 23:50:43]
+
+
+[2025-04-06 23:50:43]
+Response: Success
+
+[2025-04-06 23:50:43]
+
+

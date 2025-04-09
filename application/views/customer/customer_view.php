@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" id="content-here">
+<div class="content-wrapper" id="content-here">    
 
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -91,6 +91,11 @@
             <div class="row">
                 <div class="col-12" id="NewFormModal"><!-- Modal Open here --></div>
             </div>
+
+            <div class="row">
+                <div id="SearchFormModal"><!-- open modal seach here --></div>
+            </div>
+
             <!-- Main row -->
             <div class="row">
                 <div class="container-fluid">
@@ -98,7 +103,8 @@
                         <div class="card-header border-0">
                             <h3 class="card-title">แสดงรายชื่อลูกค้า</h3>
                             <div class="card-tools">                            
-                            <button type="button" class="btn btn-warning btn-sm shadow-btn" style="border-radius: 25px 25px 25px 25px;" onclick="FcBulkImportCustomer();"><span class="fas fa-cloud-download-alt"></span> นำเข้าข้อมูล</button>
+                                <button class="btn bt-secondary btn-sm shadow-btn" style="border-radius: 25px 25px 25px 25px;" onclick="FcFilterModal();"><span class="fas fa-filter"></span> กรองข้อมูล</button>
+                                <button type="button" class="btn btn-warning btn-sm shadow-btn" style="border-radius: 25px 25px 25px 25px;" onclick="FcBulkImportCustomer();"><span class="fas fa-cloud-download-alt"></span> นำเข้าข้อมูล</button>
                                 <button type="button" class="btn btn-danger btn-sm shadow-btn" style="border-radius: 25px 25px 25px 25px;" onclick="FcDelBulkCustomerByCID();"><span class="fas fa-plus"></span> ลบรายการ</button>
                                 <button type="button" class="btn btn-primary btn-sm shadow-btn" style="border-radius: 25px 25px 25px 25px;" onclick="fcShowCustomerModalByCID('new','');"><span class="fas fa-plus"></span> เพิ่มข้อมูล</button>
                             </div>
@@ -125,15 +131,23 @@
     $(document).ready(function(){
 
         // แสดงข้อมูลลิขสิทธิ์ใน Console
-        console.log("-----------------------------------------")
-        console.log('พัฒนาโดย บริษัท โอติกเน็ตเวิร์ค จำกัด');
-        console.log('ห้ามนำไปเผยแพร่โดยไม่ได้รับอนุญาต');
-        console.log('ติดต่อ www.otiknetwork.com | 02-538-4378');
+        console.log("-----------------------------------------")        
+        console.log('ห้ามนำไปเผยแพร่โดยไม่ได้รับอนุญาต');        
         console.log("-----------------------------------------")
         FcGetTodayStatByUserID();
         fcReloadCustomerTable();
     });
 
+
+    /*********************************************************
+    * ฟังก์ชั่นเปิดฟอร์มเพื่อกรองข้อมูลแสดง
+    *********************************************************/ 
+    function FcFilterModal() {
+        $.get('Customer/FcFetchSearchModal', function(html) {
+            $('#SearchFormModal').html(html);
+            $('#FilterModal').modal('show');
+        });
+    }
 
     /*********************************************************
     * ฟังก์ชั่นเปิดฟอร์มใหม่
@@ -150,6 +164,28 @@
             },
             error: function(xhr, status, error) {                            
                 console.error('Error:', error);                         
+            }
+        });        
+    }
+
+    function Search(){
+
+        const formData = $('#frmSearch').serialize();        
+        
+        $.ajax({
+            url: '<?=base_url('Customer/Search');?>',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+               console.log(response);
+               $('#FilterModal').modal('hide');               
+               fcReloadCustomerTable();
+               FcGetTodayStatByUserID();
+            },
+            error: function(err) {
+                console.log(err);
+                alert("เกิดข้อผิดพลาด");
             }
         });
     }
@@ -303,6 +339,7 @@
                             toastr.success('ลบข้อมูลลูกค้าเรียบร้อยแล้ว!');
                             // รีเฟรชหน้า หรือทำการอัปเดตตาราง                            
                             fcReloadCustomerTable();
+                            FcGetTodayStatByUserID();
                             
                         } else {
                             toastr.error('ไม่สามารถลบข้อมูลลูกค้าได้.');
@@ -339,7 +376,7 @@
             type: 'GET',
             data: { },             
             success: function(response) {         
-                
+                console.log(response);
                 if(response.rCode == 200 && response.rMsg == 'Success'){
 
                     $('#rWaiting').text(response.rData[0].Waiting);
