@@ -95,6 +95,8 @@ class Followups extends CI_Controller {
         $cid = $this->input->post('cid');        
 
         $this->FollowUp_model->update_dial_count($cid);
+        $this->FollowUp_model->update_src_exten($this->session->userdata('pbx_exten'),$cid);
+
 
         $rResult = $this->Customer_model->get_customer_by_id($cid);
         

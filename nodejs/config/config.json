@@ -1,0 +1,15 @@
+{
+    "asterisk": {
+      "server": "192.168.98.150",
+      "port": 5038,
+      "username": "otikadmin2025",
+      "secret": "P@ssw0rd##"
+    },
+    "database": {
+      "host": "172.30.100.5",
+      "user": "otikremote",
+      "password": "P@ssw0rd#####",
+      "database": "telesale"
+    }
+}
+  

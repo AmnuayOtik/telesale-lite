@@ -51,6 +51,15 @@ class FollowUp_model extends CI_Model {
         $this->db->where('customer_id', $customer_id);
         return $this->db->update('customers');
     }
+
+    public function update_src_exten($src_exten = null, $customer_id = null){
+
+        $this->db->set('src_exten', $src_exten);
+        $this->db->where('customer_id', $customer_id);
+        return $this->db->update('customers');
+
+    }
+    
     
     
 }
