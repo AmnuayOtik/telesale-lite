@@ -313,12 +313,38 @@
     }
 
     // ฟังก์ชันคลิกปุ่มเพื่อเริ่มและหยุดจับเวลา
+    
     $('#startButton').click(function() {
         const cid = $(this).data('cid');
         console.log('CID:', cid);
         Dial(cid);
     });
+    
 
+
+    // ฟังก์ชันคลิกปุ่มเพื่อเริ่มและหยุดจับเวลา
+    /*
+    $('#startButton').click(function() {
+        if ($(this).hasClass('btn-warning')) {
+            // ถ้ามีคลาส 'btn-success' (สถานะเริ่ม)
+            $(this).removeClass('btn-warning').addClass('btn-danger').html('<span class="fas fa-phone-alt"></span> หยุด');
+            
+            // เคลียร์เวลาเป็นศูนย์ก่อนเริ่มจับเวลา
+            totalSeconds = 0;
+            $('#timer').text(formatTime(totalSeconds));
+
+            const cid = $(this).data('cid');
+            console.log('CID:', cid);
+            Dial(cid);
+            startTimer(); // เริ่มจับเวลา
+
+        } else {
+            // ถ้าไม่มีคลาส 'btn-success' (สถานะหยุด)
+            $(this).removeClass('btn-danger').addClass('btn-warning').html('<span class="fas fa-phone-alt"></span> โทร');
+            stopTimer(); // หยุดจับเวลา
+        }
+    });
+    */
 
     function Dial(cid = ''){
         

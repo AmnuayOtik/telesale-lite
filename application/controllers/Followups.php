@@ -146,5 +146,76 @@ class Followups extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
-
+    public function ChannelHangup() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(405)
+                ->set_output(json_encode([
+                    'rCode' => 405,
+                    'rMsg' => 'Error',
+                    'rData' => 'Not allow method'
+                ]));
+        }
+    
+        $customer_id = $this->input->post('customer_id');
+    
+        if (empty($customer_id)) {
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(400)
+                ->set_output(json_encode([
+                    'rCode' => 400,
+                    'rMsg' => 'Error',
+                    'rData' => 'ไม่พบ customer_id'
+                ]));
+        }
+    
+        $rCustomer = $this->Customer_model->get_customer_by_id($customer_id);
+    
+        if (empty($rCustomer)) {
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(400)
+                ->set_output(json_encode([
+                    'rCode' => 400,
+                    'rMsg' => 'Error',
+                    'rData' => 'ไม่พบข้อมูลลูกค้าที่ระบุ'
+                ]));
+        }
+    
+        if (empty($rCustomer['pbx_channel'])) {
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(400)
+                ->set_output(json_encode([
+                    'rCode' => 400,
+                    'rMsg' => 'Error',
+                    'rData' => 'ไม่พบ channel ที่ตรงกัน'
+                ]));
+        }
+    
+        $result = $this->asterisk_ami->hangup_channel($rCustomer['pbx_channel']);
+    
+        if (is_string($result) && strpos($result, 'Success') !== false) {
+            $response = [
+                'rCode' => 200,
+                'status' => 'success',
+                'message' => 'วางสายเรียบร้อยแล้ว',
+                'response' => $result
+            ];
+        } else {
+            $response = [
+                'rCode' => 400,
+                'status' => 'error',
+                'message' => 'ไม่สามารถตัดสัญญาณได้',
+                'response' => $result
+            ];
+        }
+    
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response, JSON_UNESCAPED_UNICODE));
+    }
+    
 }
