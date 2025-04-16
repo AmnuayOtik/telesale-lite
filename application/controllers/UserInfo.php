@@ -108,6 +108,4 @@ class UserInfo extends CI_Controller{
         }
     }
 
-    
-
 }

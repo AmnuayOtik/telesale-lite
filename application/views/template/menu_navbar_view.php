@@ -136,7 +136,7 @@
 
                 <?php if($this->session->userdata('is_admin')==true){?>
                 <li class="nav-header">กำหนดค่า</li>
-                    <li class="nav-item">
+                    <li class="nav-item <?= $this->session->userdata('menu_active') === 'users' ? 'menu-is-opening menu-open' : '' ?>">
                         <a href="Setting" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
@@ -147,7 +147,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="<?=base_url('Users');?>" class="nav-link">
+                                <a href="<?=base_url('Users');?>" class="nav-link <?= $this->session->userdata('menu_active') === 'users' ? 'active' : '' ?>"">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>จัดการผู้ใช้</p>
                                 </a>
@@ -161,7 +161,7 @@
 
                 <li class="nav-header">การใช้งาน</li>
                 <li class="nav-item">
-                    <a href="<?=base_url('UserInfo');?>" id="users_info" class="nav-link">
+                    <a href="<?=base_url('UserInfo');?>" id="users_info" class="nav-link <?= $this->session->userdata('menu_active') === 'userinfo' ? 'active' : '' ?>"">
                         <i class="nav-icon far fa-user text-warning"></i>
                         <p class="text">ข้อมูลผู้ใช้</p>
                     </a>

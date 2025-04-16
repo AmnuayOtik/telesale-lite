@@ -167,6 +167,9 @@
 
 <script>
 
+    /*********************************************************
+    * ฟังก์ชั่นแก้ไขข้อมูลผู้ใช้งาน
+    *********************************************************/ 
     $('#cmdSaveUser').click(function () {
         const username = $('#username').val();
         const business_phone = $('#business_phone').val();
@@ -210,7 +213,9 @@
         });
     });
 
-
+    /*********************************************************
+    * ฟังก์ชั่นแก้ไขรหัสผ่านผู้ใช้งาน
+    *********************************************************/ 
     $('#cmdSavePassword').click(function () {
         const current_password = $('#current_password').val().trim();
         const new_password = $('#new_password').val().trim();
