@@ -159,14 +159,19 @@
                 <?php } ?>
                 
 
-
                 <li class="nav-header">การใช้งาน</li>
-                    <li class="nav-item">
-                        <a href="<?=base_url('Login/FcLogout');?>" class="nav-link">
+                <li class="nav-item">
+                    <a href="<?=base_url('UserInfo');?>" id="users_info" class="nav-link">
+                        <i class="nav-icon far fa-user text-warning"></i>
+                        <p class="text">ข้อมูลผู้ใช้</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" id="logout-btn" class="nav-link">
                         <i class="nav-icon far fa-circle text-danger"></i>
                         <p class="text">ออกจากระบบ</p>
-                        </a>
-                    </li>
+                    </a>
                 </li>
 
             </ul>
@@ -176,3 +181,26 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+
+<script>
+$(document).ready(function() {
+    $('#logout-btn').on('click', function(e) {
+        e.preventDefault(); // ป้องกันการ redirect ทันที
+
+        Swal.fire({
+            title: 'คุณแน่ใจหรือไม่?',
+            text: "คุณต้องการออกจากระบบ",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'ออกจากระบบ',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "<?=base_url('Login/FcLogout');?>";
+            }
+        });
+    });
+});
+</script>

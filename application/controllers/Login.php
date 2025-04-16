@@ -12,7 +12,12 @@ class Login extends CI_Controller {
 
     public function index()
     {
+        if($this->session->userdata('user_id')){
+            redirect('Dashboard');
+        }
+        
         $this->load->view('login/login_view.php');
+
     }
 
     public function FcHashPassword(){

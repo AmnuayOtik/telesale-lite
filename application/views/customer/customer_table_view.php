@@ -19,7 +19,7 @@
             <tr>
                 <td><input type="checkbox" name="customer[]" id="<?=$row->customer_id;?>" value="<?=$row->customer_id;?>" style="transform: scale(1.5);"></td>
                 <td style="text-align:left;"><?=$row->customer_id;?></td>
-                <td><?=$row->full_name;?></td>
+                <td style="white-space:nowrap;"><?=$row->full_name;?></td>
                 <td><?=$row->ref_user_id;?></td>                
                 <td><?=$row->line_account;?></td>
                 <td style="white-space:nowrap;"><?=$row->call_datetime;?></td>
