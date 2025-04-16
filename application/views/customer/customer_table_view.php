@@ -3,7 +3,7 @@
     <thead>
         <tr>
             <th>#</th>
-            <th style="width:10%;text-align:left;white-space=nowrap;">เลขรายการ</th>
+            <th style="width:15%;text-align:left;white-space=nowrap;">เลขรายการ</th>
             <th style="width:15%;white-space=nowrap;">ชื่อลูกค้า</th>
             <th style="width:15%;white-space=nowrap;">อ้างอิงรหัสลูกค้า</th>            
             <th style="width:10%;white-space=nowrap;">บัญชีไลน์</th>
