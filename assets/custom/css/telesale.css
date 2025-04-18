@@ -60,3 +60,16 @@ body {
 .shadow-btn:hover {
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
 }
+
+.datepicker {
+    padding: 22px !important;
+}
+
+.prev{
+    border-radius: 30px 10px 10px 30px !important;
+    background: #c2c0bd !important;
+}
+.next{
+    border-radius: 10px 30px 30px 10px !important;
+    background: #c2c0bd !important;
+}

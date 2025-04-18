@@ -14,7 +14,8 @@ class Customer extends CI_Controller {
     public function index()
 	{
 
-        $this->session->set_userdata('menu_active', 'customer');
+        $menu = ['main'=>'customer','sub'=>'customer'];
+        $this->session->set_userdata('menu',$menu);
 
         if(empty($this->session->userdata('date_filter'))){
             $this->session->set_userdata('date_filter','today');

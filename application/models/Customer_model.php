@@ -88,12 +88,19 @@ class Customer_model extends CI_Model {
 
     public function get_all_call_result_master() {
         $this->db->select('*');
-        $this->db->from('call_result_master');        
+        $this->db->from('master_callresult');        
         $query = $this->db->get();
 
         return $query->result_array(); // ใช้ row_array() เพื่อคืนค่าผลลัพธ์เป็น array
     }
-    
+
+    public function get_all_call_inform_master() {
+        $this->db->select('*');
+        $this->db->from('master_callinform');        
+        $query = $this->db->get();
+
+        return $query->result_array(); // ใช้ row_array() เพื่อคืนค่าผลลัพธ์เป็น array
+    }
 
     // ฟังก์ชั่นดึงข้อมูลลูกค้าตาม ID
     public function get_customer_by_id($customer_id)

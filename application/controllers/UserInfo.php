@@ -10,7 +10,9 @@ class UserInfo extends CI_Controller{
 
     public function index(){
 
-        $this->session->set_userdata('menu_active', 'userinfo');
+        $menu = ['main'=>'userinfo','sub'=>'userinfo'];
+        $this->session->set_userdata('menu',$menu);
+
         $data['user'] = $this->Users_model->get_users_by_id($this->session->userdata('user_id'));
         
         $data['header_content'] = ['title'=>'ข้อมูลผู้ใช้','right_menu'=>'ข้อมูลผู้ใช้'];

@@ -24,11 +24,13 @@ class Followups extends CI_Controller {
 
         if (empty($_REQUEST['cid'])) exit();
 
-        $this->session->set_userdata('menu_active', 'followups');
+        $menu = ['main'=>'customer','sub'=>'customer'];
+        $this->session->set_userdata('menu',$menu);
 
         $data['contents'] = [];
         $data['customer'] = $this->Customer_model->get_customer_by_id($_REQUEST['cid']);
         $data['call_result_master'] = $this->Customer_model->get_all_call_result_master();
+        $data['call_inform_master'] = $this->Customer_model->get_all_call_inform_master();
         $data['header_content'] = ['title'=>'โทรติดต่อลูกค้า','right_menu'=>'Follow Up'];
         $data['content'] = "followups/followups_view";
         $this->load->view('template/main_layout_view', $data);

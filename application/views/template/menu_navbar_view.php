@@ -83,7 +83,7 @@
                 -->          
 
                 <li class="nav-item">
-                    <a href="<?=base_url('Customer');?>" class="nav-link <?= $this->session->userdata('menu_active') === 'customer' ? 'active' : '' ?>">
+                    <a href="<?=base_url('Customer');?>" class="nav-link <?= $this->session->userdata('menu')['sub'] === 'customer' ? 'active' : '' ?>">
                     <i class="nav-icon fas fa-th"></i>
                         <p>
                             รายการโทร
@@ -94,7 +94,7 @@
 
                 <!--
                 <li class="nav-item">
-                    <a href="<?=base_url('Product');?>" class="nav-link <?= $this->session->userdata('menu_active') === 'product' ? 'active' : '' ?>">
+                    <a href="<?=base_url('Product');?>" class="nav-link <?= $this->session->userdata('menu')['sub'] === 'product' ? 'active' : '' ?>">
                     <i class="nav-icon fas fa-plus"></i>
                         <p>
                             สินค้า
@@ -104,7 +104,7 @@
                 </li>
 
                 <li class="nav-item">
-                <a href="<?=base_url('Company');?>" class="nav-link <?= $this->session->userdata('menu_active') === 'company' ? 'active' : '' ?>">
+                <a href="<?=base_url('Company');?>" class="nav-link <?= $this->session->userdata('menu')['sub'] === 'company' ? 'active' : '' ?>">
                     <i class="nav-icon fas fa-th"></i>
                     <p>
                     บริษัท
@@ -136,7 +136,7 @@
 
                 <?php if($this->session->userdata('is_admin')==true){?>
                 <li class="nav-header">กำหนดค่า</li>
-                    <li class="nav-item <?= $this->session->userdata('menu_active') === 'users' ? 'menu-is-opening menu-open' : '' ?>">
+                    <li class="nav-item <?= $this->session->userdata('menu')['main'] === 'manage' ? 'menu-is-opening menu-open' : '' ?>">
                         <a href="Setting" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
@@ -147,9 +147,30 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="<?=base_url('Users');?>" class="nav-link <?= $this->session->userdata('menu_active') === 'users' ? 'active' : '' ?>"">
+                                <a href="<?=base_url('Users');?>" class="nav-link <?= $this->session->userdata('menu')['sub'] === 'users' ? 'active' : '' ?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>จัดการผู้ใช้</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="<?=base_url('CallResult');?>" class="nav-link <?= $this->session->userdata('menu')['sub'] === 'callresult' ? 'active' : '' ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>ผลการโทร</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="<?=base_url('CallInform');?>" class="nav-link <?= $this->session->userdata('menu')['sub'] === 'callinform' ? 'active' : '' ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>การแจ้งผล</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="<?=base_url('Reports');?>" class="nav-link <?= $this->session->userdata('menu')['sub'] === 'reports' ? 'active' : '' ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>รายงานรวม</p>
                                 </a>
                             </li>
                                          
@@ -161,7 +182,7 @@
 
                 <li class="nav-header">การใช้งาน</li>
                 <li class="nav-item">
-                    <a href="<?=base_url('UserInfo');?>" id="users_info" class="nav-link <?= $this->session->userdata('menu_active') === 'userinfo' ? 'active' : '' ?>"">
+                    <a href="<?=base_url('UserInfo');?>" id="users_info" class="nav-link <?= $this->session->userdata('menu')['sub'] === 'userinfo' ? 'active' : '' ?>">
                         <i class="nav-icon far fa-user text-warning"></i>
                         <p class="text">ข้อมูลผู้ใช้</p>
                     </a>

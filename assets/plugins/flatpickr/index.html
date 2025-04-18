@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Date Picker แบบไทย (Offline)</title>
+    <link rel="stylesheet" href="css/flatpickr.min.css">
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <label for="thai-datepicker">เลือกวันที่ (พ.ศ.):</label>
+    <input type="text" id="thai-datepicker" class="form-control">
+
+    <script src="js/flatpickr.min.js"></script>
+    <script src="js/th.js"></script>
+    <script>
+        flatpickr("#thai-datepicker", {
+            dateFormat: "d/m/Y",
+            locale: "th",
+            altInput: true,
+            altFormat: "j F Y",
+            allowInput: true
+        });
+    </script>
+
+</body>
+</html>

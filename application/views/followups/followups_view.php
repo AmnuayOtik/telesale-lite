@@ -64,10 +64,10 @@
                                                     <?php 
                                                         foreach($call_result_master as $row){
 
-                                                            if($customer['call_result'] == $row['call_name']){
-                                                                echo "<option value=\"".$row['call_name']."\" selected>" . $row['call_name'] . "</option>";
+                                                            if($customer['call_result'] == $row['name_th']){
+                                                                echo "<option value=\"".$row['name_th']."\" selected>" . $row['name_th'] . "</option>";
                                                             }else{
-                                                                echo "<option value=\"".$row['call_name']."\">".$row['call_name']."</option>";
+                                                                echo "<option value=\"".$row['name_th']."\">".$row['name_th']."</option>";
                                                             }
                                                         }
                                                     ?>
@@ -113,9 +113,18 @@
                                             <label for="line_account">แจ้งผลผ่านทางไลน์ (Line inform)</label>
                                             <select name="line_account" id="line_account" class="form-control">
                                                 <option value="">-- เลือกผลการโทร --</option>
-                                                <option value="Sms">Sms</option>
-                                                <option value="ไลน์ลูกค้า">ไลน์ลูกค้า</option>                                            
-                                                <option value="อื่นๆ">อื่นๆ</option>
+                                                
+                                                <?php 
+                                                        foreach($call_inform_master as $row){
+
+                                                            if($customer['notified_via_line'] == $row['name_th']){
+                                                                echo "<option value=\"".$row['name_th']."\" selected>" . $row['name_th'] . "</option>";
+                                                            }else{
+                                                                echo "<option value=\"".$row['name_th']."\">".$row['name_th']."</option>";
+                                                            }
+                                                        }
+                                                    ?>
+
                                             </select>                                   
                                         </div>
                                     </div>

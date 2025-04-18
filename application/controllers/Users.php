@@ -12,8 +12,9 @@ class Users extends CI_Controller {
 
     public function index()
 	{	
-
-        $this->session->set_userdata('menu_active', 'users');
+        
+        $menu = ['main'=>'manage','sub'=>'users'];
+        $this->session->set_userdata('menu',$menu);
 
         $data['contents'] = [];
         $data['users'] = $this->Users_model->get_all_Users();
