@@ -6,7 +6,7 @@ class Reports extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('Reports_model');
-        $this->load->library('pdf');
+        $this->load->library('Pdf');
         date_default_timezone_set('Asia/Bangkok');
 
     }
