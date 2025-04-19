@@ -5,8 +5,7 @@ class Reports extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
-        $this->load->model('Reports_model');
-        $this->load->library('Pdf');
+        $this->load->model('Reports_model');        
         date_default_timezone_set('Asia/Bangkok');
 
     }
@@ -29,35 +28,36 @@ class Reports extends CI_Controller {
     }
 
     public function Report1(){
-        
+    
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo "Not allow this method.";
             exit();
         }
-
+    
         $from_date = $this->input->post('from_date');
         $to_date = $this->input->post('to_date');
 
+        $this->session->set_userdata('rFrom_date',$from_date);
+        $this->session->set_userdata('rTo_date',$to_date);
+    
         if(empty($from_date) || empty($to_date)){
             echo "กรุณาเลือกวันที่ให้ครบถ้วน";
             exit();    
         }
-
+    
+        // แปลงวันที่จาก dd-mm-yyyy -> yyyy-mm-dd
+        $from_date = DateTime::createFromFormat('d-m-Y', $from_date)->format('Y-m-d');
+        $to_date   = DateTime::createFromFormat('d-m-Y', $to_date)->format('Y-m-d');
+    
         $rData = array('from_date'=>$from_date,'to_date'=>$to_date);
-
-        $data['Report1'] = $this->Reports_model->Report1($rData);
+    
+        $data['ReportTable'] = $this->Reports_model->Report1_getReportTable($rData);
+        $data['ReportChartSummary'] = $this->Reports_model->Report1_getChartSummary($rData);
+        
         $data['condition'] = array('from_date'=>$from_date,'to_date'=>$to_date);
-
-		//$this->load->view('reports/report1_view',$data);
-
-        $html = $this->load->view('reports/report1_view', $data, true);
-
-		// สั่งพรีวิวเอกสารเป็น html
-		//$this->load->view('Import/print_tt1_view', $data);
-		// สั่งพิมพ์ออกมาเป็นไฟล์ PDF
-        $this->pdf->createPDF($html, 'mypdf', false);
-
-
+    
+        $this->load->view('reports/report1_view',$data);
     }
+    
 
 }

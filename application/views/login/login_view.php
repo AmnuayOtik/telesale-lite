@@ -14,22 +14,21 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?=base_url("assets/dist/css/adminlte.min.css"); ?>">
   <link rel="stylesheet" href="<?=base_url("assets/dist/css/style.css"); ?>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet">
-<style>
-  body{
-    font-family: 'Kanit', sans-serif;
-    background-image: url("assets/images/bg.jpeg");
-    /* Full height */
-    height: 100%;
+  <link rel="stylesheet" href="<?=base_url("assets/custom/css/telesale.css"); ?>">
 
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }  
-</style>
+  <style>
+    body{
+      font-family: 'THSarabunNew', sans-serif;
+      background-image: url("assets/images/bg.jpeg");
+      /* Full height */
+      height: 100%;
+
+      /* Center and scale the image nicely */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }  
+  </style>
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -47,7 +46,7 @@
     </div>
   <!-- /.login-logo -->
 
-      <p class="login-box-msg">ระบบบริหารงานขาย| กรุณาเข้าสู่ระบบ</p>
+      <p class="login-box-msg">ระบบบริหารงานขาย | กรุณาเข้าสู่ระบบ</p>
 
       <form id="frmLogin" class="form-signin" name="frmLogin" method="post">      
         <div class="input-group mb-3">        

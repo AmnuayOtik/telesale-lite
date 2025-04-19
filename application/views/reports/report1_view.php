@@ -1,99 +1,142 @@
+<!-- Chart.js -->
+<script src="<?=base_url('assets/plugins/chartjs/Chart.bundle.min.js');?>"></script>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รายงานรายการเอกสารที่ขอนำเข้า / ส่งออก - ตามช่วงเวลาที่กำหนด</title>
-    <link rel="icon" type="image/x-icon" href="<?=base_url('assets/dist/img/logo.ico');?>">
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
 
-    <style>
-        @font-face {
-            font-family: 'THSarabunNew';
-            src: url('../../fonts/thsarabunnew_italic-webfont.eot');
-            src: url('../../fonts/thsarabunnew_italic-webfont.eot?#iefix') format('embedded-opentype'),
-                url('../../fonts/thsarabunnew_italic-webfont.woff') format('woff'),
-                url('../../fonts/thsarabunnew_italic-webfont.ttf') format('truetype');
-            font-weight: normal;
-            font-style: italic;
+    .chart-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ffffff;
+        padding: 20px;
+        flex-direction: column;
+    }
 
-        }
+    .chart-container {
+        width: 100%;
+        max-width: 700px;
+    }
 
-        @font-face {
-            font-family: 'THSarabunNew';
-            src: url('../../fonts/thsarabunnew_bold-webfont.eot');
-            src: url('../../fonts/thsarabunnew_bold-webfont.eot?#iefix') format('embedded-opentype'),
-                url('../../fonts/thsarabunnew_bold-webfont.woff') format('woff'),
-                url('../../fonts/thsarabunnew_bold-webfont.ttf') format('truetype');
-            font-weight: bold;
-            font-style: normal;
+    .report-wrapper {
+        text-align: left;
+    }
 
-        }
-        @page {
-            margin-left: 5mm;
-            margin-right: 5mm;
-            margin-top: 2mm;
-            margin-bottom: 5mm;
-        }
-        body{
-            margin-top:5px !important;
-            margin-left: 10px !important;
-            margin-bottom: 0px !important;
-            padding: 12px !important;            
-            font-family: "THSarabunNew", "Garuda", "Tahoma", sans-serif;	
-            font-size: 22px;
-		}
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body>
+    h4 {
+        margin-bottom: 30px;
+        color: #333;
+    }
+</style>
 
-    <h3 style="text-align:center;">รายงานรายการเอกสารที่ขอนำเข้า / ส่งออก - ตามช่วงเวลาที่กำหนด</h3>
-    <span style="text-align:center;">เงื่อนไขรายงาน จากวันที่ <?=$condition['from_date'];?> ถึงวันที่ <?=$condition['to_date'];?></span>
+<div class="chart-wrapper">
+    <h4 class="text-center">Call Summary Report</h4>
+    <div class="chart-container">
+        <canvas id="callPieChart"></canvas>
+    </div>
+</div>
 
-    <hr>
-    <table>
-        <thead>
+<hr>
+
+<div class="report-wrapper mt-4">
+    <h3 class="text-center" style="font-weight: bold;">สรุปรายการโทร (Call Details)</h3>
+    <h5>รายงานสรุปยอดการโทร - จากวันที่ <?=$condition['from_date'];?> ถึงวันที่ <?=$condition['to_date'];?></h5>
+    <table class="table table-bordered table-striped" id="callTable">
+        <thead class="thead-light">
             <tr>
-                <th>ชื่อบุคคล/นิติบุคคล</th>
-                <th style="text-align:center;">นำเข้า</th>
-                <th style="text-align:center;">ส่งออก</th>
-                <th style="text-align:center;">แปรสภาพ</th>                 
+                <th>ลำดับ</th>
+                <th>พนักงานโทร</th>
+                <th class="text-right">รอดำเนินการ</th>
+                <th class="text-right">ติดต่อลูกค้าไม่ได้</th>
+                <th class="text-right">ขอเลื่อน</th>
+                <th class="text-right">เสร็จสิ้น</th>
             </tr>
         </thead>
         <tbody>
-            <?php
-
-                if(!empty($report1)){
-
-                foreach($report1 as $row){
-            ?>
-            <tr>                
-                <td style="vertical-align: top;text-align:left;"><?=$row['USER_NAME'];?></td> 
-                <td style="vertical-align: top;text-align:center;"><?=$row['IMPORT_COUNT'];?></td>                                               
-                <td style="vertical-align: top;text-align:center;"><?=$row['EXPORT_COUNT'];?></td>                
-                <td style="vertical-align: top;text-align:center;"><?=$row['CONVERT_COUNT'];?></td>                
-            </tr>
             <?php 
-                } 
-            }else{
-                echo "empty data";
-            }
+                $i = 1;
+                $Waiting = 0;
+                $Incomplete = 0;
+                $Postpone = 0;
+                $Finished = 0;
+
+                foreach($ReportTable as $row){
+                    $Waiting    += $row->Waiting;
+                    $Incomplete += $row->Incomplete;
+                    $Postpone   += $row->Postpone;
+                    $Finished   += $row->Finished;
             ?>
-            
+                <tr>
+                    <td><?=$i++;?></td>
+                    <td><?=$row->full_name;?></td>
+                    <td class="text-right"><?=number_format($row->Waiting);?></td>
+                    <td class="text-right"><?=number_format($row->Incomplete);?></td>
+                    <td class="text-right"><?=number_format($row->Postpone);?></td>
+                    <td class="text-right"><?=number_format($row->Finished);?></td>
+                </tr>
+            <?php } ?>
         </tbody>
+        <tfoot>
+            <tr class="font-weight-bold">
+                <td colspan="2" class="text-right">รวมทั้งหมด</td>
+                <td class="text-right"><?=number_format($Waiting);?></td>
+                <td class="text-right"><?=number_format($Incomplete);?></td>
+                <td class="text-right"><?=number_format($Postpone);?></td>
+                <td class="text-right"><?=number_format($Finished);?></td>
+            </tr>
+        </tfoot>
     </table>
-    
-</body>
-</html>
+</div>
+
+<script>
+    var chartData = <?= json_encode($ReportChartSummary); ?>;
+
+    if (typeof callPieChart !== 'undefined') {
+        callPieChart.destroy();
+    }
+
+    var ctx = document.getElementById('callPieChart').getContext('2d');
+
+    var callPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['เสร็จสิ้น', 'รอดำเนินการ', 'ขอเลื่อน', 'ติดต่อลูกค้าไม่ได้'],
+            datasets: [{
+                data: [
+                    chartData.Finished || 0,
+                    chartData.Waiting || 0,
+                    chartData.Postpone || 0,
+                    chartData.Incomplete || 0
+                ],
+                backgroundColor: [
+                    '#28a745',    // เสร็จสิ้น
+                    '#ffe033',    // รอดำเนินการ
+                    '#fd7e14',    // ขอเลื่อน
+                    '#dc3545'     // ติดต่อลูกค้าไม่ได้
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            let value = context.parsed;
+                            let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            let percentage = (value / total * 100).toFixed(1);
+                            return `${label}: ${value.toLocaleString()} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+

@@ -78,9 +78,30 @@
                     </div>
                 </div>
                 <!-- /.card -->
-
             </div>
             <!-- /.row (main row) -->
+
+            <!-- แสดงผลรายงาน -->
+            <div class="row" id="Report-main-result" style="display: none;">
+                <div class="container-fluid">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h3 class="card-title"></h3>
+                            <div class="card-tools">
+                            <button class="btn btn-default btn-sm" style="border-radius: 30px;" type="button" onclick="exportTableToExcel('callTable', 'Call_Summary_Report')">
+                                <span class="fas fa-file-download"></span> Download
+                            </button>
+                            </div>
+                        </div>
+                        <div class="card-body table-responsive" style="padding: 20px !important;" id="ReportResult" >
+                           <div class="text-center my-4" id="Report-Graph"><!-- แสดงกราฟที่นี่ --></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.row (main row) -->
+
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -102,12 +123,15 @@
     function FcOpenReport(report_id = ''){
 
         $('#NewFormModal').html();
+        $('#Report-Graph').html();
+
         $.ajax({
             url: '<?=base_url('Reports/FcOpenReportModal');?>',
             type: 'POST',
             data: { report_id: report_id },             
             success: function(response) {                
                 $('#NewFormModal').html(response);
+                $('#Report-Graph').html();
                 $('#ReportsformModal').modal({ backdrop: 'static', keyboard: false }).modal('show'); // Prevent closing when clicking outside
             },
             error: function(xhr, status, error) {                            
@@ -121,10 +145,30 @@
         $('#ReportsTableBody').slideToggle(); // ซ่อน/แสดงด้วย animation
         $('#toggle-icon').toggleClass('fa-chevron-down fa-chevron-up'); // สลับไอคอน
     });
+    
+    function exportTableToExcel(tableID, filename = '') {
+        var downloadLink;
+        var dataType = 'application/vnd.ms-excel';
+        var tableSelect = document.getElementById(tableID);
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
 
-</script>
+        filename = filename ? filename + '.xls' : 'excel_data.xls';
 
+        downloadLink = document.createElement("a");
+        document.body.appendChild(downloadLink);
 
-
+        if (navigator.msSaveOrOpenBlob) {
+            // สำหรับ IE
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+            // สำหรับ Chrome, Firefox ฯลฯ
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+            downloadLink.download = filename;
+            downloadLink.click();
+        }
+    }
 
 </script>
