@@ -1,0 +1,27 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.chart-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 700px;
+}
+
+.report-wrapper {
+    text-align: left;
+}
+
+h4 {
+    margin-bottom: 30px;
+    color: #333;
+}

@@ -53,7 +53,7 @@
                 <div class="container-fluid">
                     <div class="card">
                         <div class="card-header border-0">
-                            <h3 class="card-title">แสดงรายงานทั้งหมดในระบบ</h3>
+                            <h3 class="card-title">เลือกรายงานที่คุณต้องการ</h3>
                             <div class="card-tools">
                             <button class="btn btn-default btn-sm" id="toggle-btn" style="border-radius: 30px;" type="button">
                                 <span class="fas fa-chevron-down" id="toggle-icon"></span>
@@ -67,7 +67,7 @@
                                     <a href="#" class="custom-link" style="text-decoration: none; color: #007bff; font-weight: bold;" onclick="FcOpenReport('1');">📝 1. รายงานสรุปยอดการโทร - ตามวันที่กำหนด</a>
                                 </li>
                                 <li class="list-group-item custom-item" style="border: none; background-color: #f8f9fa; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
-                                    <a href="#" class="custom-link" style="text-decoration: none; color: #007bff; font-weight: bold;" onclick="FcOpenReport('2');">📄 2. รายงานสินค้าเข้าออก</a>
+                                    <a href="#" class="custom-link" style="text-decoration: none; color: #007bff; font-weight: bold;" onclick="FcOpenReport('2');">📄 2. รายงานลูกค้า - ตามวันที่กำหนด</a>
                                 </li>
                                 <li class="list-group-item custom-item" style="border: none; background-color: #f0f8ff; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
                                     <a href="#" class="custom-link" style="text-decoration: none; color: #007bff; font-weight: bold;" onclick="FcOpenReport('3');">📊 3. รายงานเปรียบเทียบรายเดือน</a>

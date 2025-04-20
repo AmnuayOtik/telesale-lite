@@ -1,35 +1,6 @@
 <!-- Chart.js -->
 <script src="<?=base_url('assets/plugins/chartjs/Chart.bundle.min.js');?>"></script>
-
-<style>
-    body, html {
-        height: 100%;
-        margin: 0;
-    }
-
-    .chart-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #ffffff;
-        padding: 20px;
-        flex-direction: column;
-    }
-
-    .chart-container {
-        width: 100%;
-        max-width: 700px;
-    }
-
-    .report-wrapper {
-        text-align: left;
-    }
-
-    h4 {
-        margin-bottom: 30px;
-        color: #333;
-    }
-</style>
+<link rel="stylesheet" href="<?=base_url('assets/custom/css/reports.css');?>">
 
 <div class="chart-wrapper">
     <h4 class="text-center">Call Summary Report</h4>
@@ -42,7 +13,7 @@
 
 <div class="report-wrapper mt-4">
     <h3 class="text-center" style="font-weight: bold;">สรุปรายการโทร (Call Details)</h3>
-    <h5>รายงานสรุปยอดการโทร - จากวันที่ <?=$condition['from_date'];?> ถึงวันที่ <?=$condition['to_date'];?></h5>
+    <h5 class="text-center">รายงานสรุปยอดการโทร - จากวันที่ <?=$condition['from_date'];?> ถึงวันที่ <?=$condition['to_date'];?></h5>
     <table class="table table-bordered table-striped" id="callTable">
         <thead class="thead-light">
             <tr>
