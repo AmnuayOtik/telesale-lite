@@ -68,10 +68,7 @@
                                 </li>
                                 <li class="list-group-item custom-item" style="border: none; background-color: #f8f9fa; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
                                     <a href="#" class="custom-link" style="text-decoration: none; color: #007bff; font-weight: bold;" onclick="FcOpenReport('2');">📄 2. รายงานลูกค้า - ตามวันที่กำหนด</a>
-                                </li>
-                                <li class="list-group-item custom-item" style="border: none; background-color: #f0f8ff; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
-                                    <a href="#" class="custom-link" style="text-decoration: none; color: #007bff; font-weight: bold;" onclick="FcOpenReport('3');">📊 3. รายงานเปรียบเทียบรายเดือน</a>
-                                </li>
+                                </li>                               
                             </ol>
 
                         </div>
