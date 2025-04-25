@@ -104,9 +104,11 @@
                             <h3 class="card-title">แสดงรายชื่อลูกค้า</h3>
                             <div class="card-tools">                            
                                 <button class="btn bt-secondary btn-sm shadow-btn" style="border-radius: 25px 25px 25px 25px;" onclick="FcFilterModal();"><span class="fas fa-filter"></span> กรองข้อมูล</button>
-                                <button type="button" class="btn btn-warning btn-sm shadow-btn" style="border-radius: 25px 25px 25px 25px;" onclick="FcBulkImportCustomer();"><span class="fas fa-cloud-download-alt"></span> นำเข้าข้อมูล</button>
-                                <button type="button" class="btn btn-danger btn-sm shadow-btn" style="border-radius: 25px 25px 25px 25px;" onclick="FcDelBulkCustomerByCID();"><span class="fas fa-plus"></span> ลบรายการ</button>
-                                <button type="button" class="btn btn-primary btn-sm shadow-btn" style="border-radius: 25px 25px 25px 25px;" onclick="fcShowCustomerModalByCID('new','');"><span class="fas fa-plus"></span> เพิ่มข้อมูล</button>
+                                <?php if($this->session->userdata('is_admin') == true){ ?>                                
+                                    <button type="button" class="btn btn-warning btn-sm shadow-btn" style="border-radius: 25px 25px 25px 25px;" onclick="FcBulkImportCustomer();"><span class="fas fa-cloud-download-alt"></span> นำเข้าข้อมูล</button>
+                                    <button type="button" class="btn btn-danger btn-sm shadow-btn" style="border-radius: 25px 25px 25px 25px;" onclick="FcDelBulkCustomerByCID();"><span class="fas fa-plus"></span> ลบรายการ</button>
+                                    <button type="button" class="btn btn-primary btn-sm shadow-btn" style="border-radius: 25px 25px 25px 25px;" onclick="fcShowCustomerModalByCID('new','');"><span class="fas fa-plus"></span> เพิ่มข้อมูล</button>
+                                <?php } ?>
                             </div>
                         </div>
                         <div class="card-body table-responsive" style="padding: 20px !important;" id="CustomerTableBody" >

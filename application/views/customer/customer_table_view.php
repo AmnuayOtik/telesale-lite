@@ -52,8 +52,12 @@
                 <td style="text-align:right;white-space:nowrap;">
                     <!-- ปุ่มดำเนินการ -->
                     <a href="<?=base_url('Followups?cid=').$row->customer_id;?>" class="btn btn-info btn-sm"><span class="far fa-file-audio"></span> เปิดงาน</a>
-                    <button class="btn btn-warning btn-sm" onclick="FcEditCustomerModalByCID('edit','<?=$row->customer_id;?>');"><span class="fas fa-edit"></span> แก้ไข</button>
-                    <button class="btn btn-danger btn-sm" onclick="FcDelCustomerByCID('<?=$row->customer_id;?>');"><span class="fas fa-trash"></span> ลบ</button>
+                    
+                    <?php if($this->session->userdata('is_admin') == true){ ?>
+                        <button class="btn btn-warning btn-sm" onclick="FcEditCustomerModalByCID('edit','<?=$row->customer_id;?>');"><span class="fas fa-edit"></span> แก้ไข</button>
+                        <button class="btn btn-danger btn-sm" onclick="FcDelCustomerByCID('<?=$row->customer_id;?>');"><span class="fas fa-trash"></span> ลบ</button>
+                    <?php } ?>
+
                 </td>
             </tr>
         <?php } ?>

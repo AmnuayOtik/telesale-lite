@@ -234,6 +234,17 @@
                                             </div>
                                         </div>                                       
                                     </div> 
+                                    <div class="row">
+                                        <div class="col-md-12">                                        
+                                        <label for="last_activity">รายการเล่น/เหตุผลครั้งก่อนที่ตาม (Last Activity)</label>
+                                            <div class="input-group mb-3">                                                
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><span class="fas fa-envelope-open"></span></span>
+                                                </div>
+                                                <input type="text" class="form-control" id="last_activity" name="last_activity" value="<?=$customer['last_activity'];?>" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                       
                                     <div class="form-group">
