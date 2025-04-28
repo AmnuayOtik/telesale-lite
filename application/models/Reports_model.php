@@ -63,7 +63,7 @@ class Reports_model extends CI_Model {
                 WHERE date_create >= ? AND date_create < ?";
         return $this->db->query($sql, [$from_date, $to_date])->row_array();
     }
-
+/*
     public function Report2_getReportTable($rData = [])
     {
         // ตรวจสอบว่า input มีค่าครบหรือไม่
@@ -84,6 +84,30 @@ class Reports_model extends CI_Model {
         $query = $this->db->get();
         return $query->result(); // หรือ result_array() ถ้าต้องการ array
     }
+*/
+
+    public function Report2_getReportTable($rData = [])
+    {
+        if (empty($rData['from_date']) || empty($rData['to_date'])) {
+            return [];
+        }
+
+        $from_date = $rData['from_date'] . ' 00:00:00';
+        $to_date   = $rData['to_date'] . ' 23:59:59';
+
+        $this->db->select('customers.customer_id, customers.full_name AS full_name, customers.ref_user_id, customers.phone_number');
+        $this->db->select('customers.line_account, customers.call_datetime, customers.call_result, customers.notified_via_line, customers.cstatus');
+        $this->db->select('users.full_name AS user_full_name'); // เพิ่ม full_name จากตาราง users
+        $this->db->from('customers');
+        $this->db->join('users', 'customers.user_id = users.user_id', 'inner');
+        $this->db->where('customers.date_create >=', $from_date);
+        $this->db->where('customers.date_create <=', $to_date);
+
+        $query = $this->db->get();
+        //echo $this->db->last_query(); // หรือจะแสดงบนหน้าเลยก็ได้ (เฉพาะตอน debug)
+        return $query->result();
+    }
+
 
     public function Report2_getChartSummary($rData = []) {
 

@@ -24,6 +24,7 @@
                 <th class="text-left">เบอร์โทร</th>
                 <th class="text-left">วันที่่โทร</th>
                 <th class="text-left">ผลการโทร</th>
+                <th class="text-left">พนักงาน</th>
                 <th class="text-left">แจ้งผลผ่าน</th>
                 <th class="text-left">สถานะ</th>
             </tr>
@@ -41,6 +42,7 @@
                     <td><?=$row->phone_number;?></td>
                     <td><?=$row->call_datetime;?></td>
                     <td><?=$row->call_result;?></td>
+                    <td><?=$row->user_full_name;?></td>
                     <td><?=$row->notified_via_line;?></td>
                     <td><?=$row->cstatus;?></td>
                 </tr>
