@@ -1,6 +1,11 @@
 <!-- Chart.js -->
 <script src="<?=base_url('assets/plugins/chartjs/Chart.bundle.min.js');?>"></script>
 <link rel="stylesheet" href="<?=base_url('assets/custom/css/reports.css');?>">
+<style>
+    .hide-column {
+        display: none;
+    }
+</style>
 
 <div class="chart-wrapper">
     <h4 class="text-center">Call Summary Report</h4>
@@ -24,8 +29,14 @@
                 <th class="text-left">เบอร์โทร</th>
                 <th class="text-left">วันที่่โทร</th>
                 <th class="text-left">ผลการโทร</th>
-                <th class="text-left">พนักงาน</th>
+                <th class="text-left">พนักงาน</th>                
                 <th class="text-left">แจ้งผลผ่าน</th>
+                <th class="hide-column text-left">หมายเหตุผลการโทร</th>
+                <th class="hide-column text-left">หมายเหตุการแจ้งผล</th>
+                <th class="hide-column text-left">บัญชีไลน์</th>
+                <th class="hide-column text-left">ขาดฝาก</th>
+                <th class="hide-column text-left">กิจกรรมล่าสุด</th>
+                <th class="hide-column text-left">หมายเหตุอื่นๆ</th>
                 <th class="text-left">สถานะ</th>
             </tr>
         </thead>
@@ -44,6 +55,12 @@
                     <td><?=$row->call_result;?></td>
                     <td><?=$row->user_full_name;?></td>
                     <td><?=$row->notified_via_line;?></td>
+                    <td class="hide-column"><?=$row->call_result_note;?></td>
+                    <td class="hide-column"><?=$row->line_account_note;?></td>
+                    <td class="hide-column"><?=$row->line_account;?></td>
+                    <td class="hide-column"><?=$row->missed_deposit;?></td>
+                    <td class="hide-column"><?=$row->last_activity;?></td>
+                    <td class="hide-column"><?=$row->note;?></td>
                     <td><?=$row->cstatus;?></td>
                 </tr>
             <?php endforeach; ?>

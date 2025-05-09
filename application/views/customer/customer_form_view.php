@@ -8,6 +8,7 @@ $DisabledPermission = isset($mode) && ($mode === 'update' || $mode === 'new') ? 
 $x_customer_id = isset($customer['customer_id']) ? $customer['customer_id'] : '';
 $x_ref_user_id = isset($customer['ref_user_id']) ? $customer['ref_user_id'] : '';
 $x_full_name = isset($customer['full_name']) ? $customer['full_name'] : '';
+$x_user_id = isset($customer['user_id']) ? $customer['user_id'] : '';
 $x_phone_number = isset($customer['phone_number']) ? $customer['phone_number'] : '';
 $x_line_account = isset($customer['line_account']) ? $customer['line_account'] : '';
 $x_missed_deposit = isset($customer['missed_deposit']) ? $customer['missed_deposit'] : '';
@@ -113,17 +114,19 @@ $user_id = $this->session->userdata('user_id');
                                         <!-- Assign to -->
                                         <div class="form-group">
                                             <label for="cstatus">ผู้รับผิดชอบ (Assign to)</label>
+                                            
                                             <select class="form-control" id="user_id" name="user_id">
-                                               <?php foreach($users as $user) {
-                                                    if($user->user_id == $user_id){
-                                                        echo "<option value=\"".$user->user_id."\" selected>".$user->full_name."</option>";
-                                                    }else{
-                                                        echo "<option value=\"".$user->user_id."\">".$user->full_name."</option>";
-                                                    }
-                                                    
-                                               } 
-                                               ?>
+                                                <?php
+                                                    // ดึงค่าจาก customer หรือ session
+                                                    $selected_user = ($x_user_id != '') ? $x_user_id : $user_id;
+                                                ?>
+                                                <?php foreach ($users as $user): ?>
+                                                    <option value="<?= $user->user_id ?>" <?= ($user->user_id == $selected_user) ? 'selected' : '' ?>>
+                                                        <?= $user->full_name ?>
+                                                    </option>
+                                                <?php endforeach; ?>
                                             </select>
+
                                         </div>  
 
                                         <!-- Customer Status (Active / Inactive) -->

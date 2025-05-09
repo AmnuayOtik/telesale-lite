@@ -122,7 +122,7 @@ class Users extends CI_Controller {
         $mobile_phone = $this->input->post('mobile_phone');
         $business_phone = $this->input->post('business_phone');
         $email = $this->input->post('email');
-        $user_type = $this->input->post('user_type');
+        $user_type = $this->input->post('user_type');        
         $cstatus = $this->input->post('cstatus');
 
         if($mode == 'new'){
@@ -148,7 +148,7 @@ class Users extends CI_Controller {
             'mobile_phone'=> $mobile_phone,
             'email'=> $email,
             'business_phone'=> $business_phone,
-            'user_type'=> $user_type,
+            'user_type'=> $user_type,            
             'cstatus'=> $cstatus,
             'who_create'=>$this->session->userdata('user_id'),
             'date_create' => $current_datetime,

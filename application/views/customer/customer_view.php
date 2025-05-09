@@ -32,7 +32,7 @@
                 <div class="inner">
                     <h3><span id="rWaiting">0</span>/<small style="font-size:23px;color:yellow;" id="rTotal">0</small></h3>
 
-                    <p>จำนวนรายการที่โทรแล้ว/ทั้งหมด</p>
+                    <p>จำนวนรายการที่โทรแล้ว/ทั้งหมด</p>                    
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>

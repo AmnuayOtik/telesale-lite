@@ -27,7 +27,7 @@
                             <div class="tab-content" id="custom-tabs-four-tabContent">
                                 <div class="tab-pane fade active show" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
 
-                                    <form id="csvImportForm" enctype="multipart/form-data">
+                                    <form id="csvImportForm" method="post" enctype="multipart/form-data">
 
                                          <!-- Csv_file -->
                                          <div class="form-group">
@@ -50,6 +50,12 @@
                                                     }
                                                 ?>                                                
                                             </select>
+                                        </div>
+
+                                        <!-- date effect -->
+                                        <div class="form-group">
+                                            <label for="date_create">กำหนดวันที่โทร (Date)</label>                                            
+                                            <input type="text" class="form-control" style="border-color: #f5b6b6;" id="date_create" name="date_create" data-provide="datepicker" data-date-language="th" value="" placeholder="เลือกวันที่ วัน-เดือน-ปี">
                                         </div>
 
                                         <!-- Csv_file -->
@@ -103,6 +109,16 @@
             }
         });
 
+        /*********************************************************
+        * กำหนด datepicker ให้กับ from_date และ to_date
+        *********************************************************/
+        $('#date_create').datepicker({
+            format: 'yyyy-mm-dd',            
+            language: 'th',
+            autoclose: true,
+            todayHighlight: true
+        });
+
     });
 
     /*********************************************************
@@ -110,8 +126,9 @@
     *********************************************************/  
     function fcCustomerCsvImport() {
         const csvFile = document.getElementById("csv_file").files[0];
+        const date_create = $('#date_create').val();        
 
-        if(csvFile == null){
+        if(csvFile == null ||date_create == ""){
             toastr.error("กรุณาเลือกไฟล์ที่ต้องการนำเข้า","แจ้งเตือน");
             return;
         }

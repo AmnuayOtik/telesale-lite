@@ -12,6 +12,7 @@ $x_mobile_phone = isset($user['mobile_phone']) ? $user['mobile_phone'] : '';
 $x_business_phone = isset($user['business_phone']) ? $user['business_phone'] : '';
 $x_email = isset($user['email']) ? $user['email'] : '';
 $x_user_type = isset($user['user_type']) ? $user['user_type'] : '';
+$x_opt_not_closed = isset($user['opt_not_closed']) ? $user['opt_not_closed'] : '';
 $x_cstatus = isset($user['cstatus']) ? $user['cstatus'] : '';
 
 

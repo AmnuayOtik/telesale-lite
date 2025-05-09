@@ -60,6 +60,7 @@ class Login extends CI_Controller {
             $this->session->set_userdata('username', $mResult->username);
             $this->session->set_userdata('full_name', $mResult->full_name);
             $this->session->set_userdata('pbx_exten', $mResult->business_phone);
+            //$this->session->set_userdata('opt_not_closed', $mResult->opt_not_closed);
 
             if($mResult->user_type == '1'){
                 $this->session->set_userdata('is_admin', true);

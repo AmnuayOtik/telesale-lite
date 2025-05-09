@@ -5,7 +5,12 @@
             <th>#</th>
             <th style="width:15%;text-align:left;white-space=nowrap;">เลขรายการ</th>
             <th style="width:15%;white-space=nowrap;">ชื่อลูกค้า</th>
-            <th style="width:15%;white-space=nowrap;">อ้างอิงรหัสลูกค้า</th>            
+            <th style="width:15%;white-space=nowrap;">อ้างอิงรหัสลูกค้า</th>
+            <?php
+                if($this->session->userdata('is_admin') == true){
+                    echo "<th style=\"width:15%;white-space=nowrap;\">พนักงาน</th>";
+                }
+            ?>
             <th style="width:10%;white-space=nowrap;">บัญชีไลน์</th>
             <th style="width:10%;white-space=nowrap;">วันที่โทร</th>
             <th style="width:10%;white-space=nowrap;text-align:center;">ครั้งที่โทร</th>
@@ -20,7 +25,13 @@
                 <td><input type="checkbox" name="customer[]" id="<?=$row->customer_id;?>" value="<?=$row->customer_id;?>" style="transform: scale(1.5);"></td>
                 <td style="text-align:left;"><?=$row->customer_id;?></td>
                 <td style="white-space:nowrap;"><?=$row->full_name;?></td>
-                <td><?=$row->ref_user_id;?></td>                
+                <td><?=$row->ref_user_id;?></td>    
+                <?php
+                    if($this->session->userdata('is_admin') == true){
+                        echo "<td style=\"white-space:nowrap;\">".$row->user_full_name."</td>";
+                    }
+                ?>
+
                 <td><?=$row->line_account;?></td>
                 <td style="white-space:nowrap;"><?=$row->call_datetime;?></td>
                 <td style="text-align:center;"><?=$row->call_count;?></td>

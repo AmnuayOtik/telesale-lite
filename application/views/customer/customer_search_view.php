@@ -22,14 +22,16 @@
                     <select name="date_filter" class="form-control" required>
                         <option value="">-- เลือกช่วงเวลา --</option>
                         <option value="today" <?= ($selected == 'today') ? 'selected' : '' ?>>วันนี้</option>
-
                         <?php if ($is_admin): ?>
                             <option value="yesterday" <?= ($selected == 'yesterday') ? 'selected' : '' ?>>เมื่อวาน</option>
                             <option value="this_week" <?= ($selected == 'this_week') ? 'selected' : '' ?>>สัปดาห์นี้</option>
                             <option value="this_month" <?= ($selected == 'this_month') ? 'selected' : '' ?>>เดือนนี้</option>
                             <option value="this_year" <?= ($selected == 'this_year') ? 'selected' : '' ?>>ปีนี้</option>
-                            <option value="date_range" <?= ($selected == 'date_range') ? 'selected' : '' ?>>กำหนดเอง</option>
+                            
                         <?php endif; ?>
+
+                        <option value="date_range" <?= ($selected == 'date_range') ? 'selected' : '' ?>>กำหนดเอง</option>
+
                     </select>
 
 
@@ -81,8 +83,10 @@
                 $('#custom_date_range').slideDown();
             } else {
                 $('#custom_date_range').slideUp();
+                /*
                 $('#from_date').val('');
                 $('#to_date').val('');
+                */
             }
         }
 

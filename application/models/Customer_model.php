@@ -12,8 +12,13 @@ class Customer_model extends CI_Model {
 
     // ฟังก์ชั่นดึงข้อมูลลูกค้าทั้งหมด
     public function get_all_customers() {
+        /*
         $this->db->select('*');
         $this->db->from('customers');
+        */
+        $this->db->select('customers.*, users.full_name AS user_full_name');
+        $this->db->from('customers');
+        $this->db->join('users', 'users.user_id = customers.user_id', 'inner');
 
         // ดึงข้อมูลจาก session
         $user_id   = $this->session->userdata('user_id');
@@ -63,26 +68,39 @@ class Customer_model extends CI_Model {
                         break;
                 }
 
-                $this->db->where('date_create >=', $start);
-                $this->db->where('date_create <=', $end);
+                $this->db->where('customers.date_create >=', $start);
+                $this->db->where('customers.date_create <=', $end);
             } else {
-                $this->db->where('date_create >=', $start);
-                $this->db->where('date_create <=', $end);
-                $this->db->where('user_id', $user_id);
+                $this->db->where('customers.date_create >=', $start);
+                $this->db->where('customers.date_create <=', $end);
+                $this->db->where('customers.user_id', $user_id);
             }
 
-        } else {
-            $this->db->where('date_create >=', $start);
-            $this->db->where('date_create <=', $end);
-            $this->db->where('user_id', $user_id);
+        } else if($filter == 'date_range') {
+            $start = $this->session->userdata('from_date');
+            $end   = $this->session->userdata('to_date');
+
+            if (empty($start) || empty($end)) {
+                $start = date('Y-m-d 00:00:00');
+                $end   = date('Y-m-d 23:59:59');
+            }
+
+            $this->db->where('customers.date_create >=', $start.' 00:00:00');
+            $this->db->where('customers.date_create <=', $end.' 23:59:59');
+            $this->db->where('customers.user_id', $user_id);
+
+        }else{
+            $this->db->where('customers.date_create >=', $start);
+            $this->db->where('customers.date_create <=', $end);
+            $this->db->where('customers.user_id', $user_id);
         }
 
         // เพิ่มการจัดเรียง cstatus: Waiting มาก่อน Finished
-        $this->db->order_by("FIELD(cstatus, 'Waiting', 'Finished','Incomplete','postpone')", NULL, FALSE);
-        $this->db->order_by('customer_id', 'DESC');
+        $this->db->order_by("FIELD(customers.cstatus, 'Waiting', 'Finished','Incomplete','postpone')", NULL, FALSE);
+        $this->db->order_by('customers.customer_id', 'DESC');
 
         $query = $this->db->get();
-
+        //echo $this->db->last_query();
         return $query->result();
     }
 

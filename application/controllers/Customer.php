@@ -72,6 +72,7 @@ class Customer extends CI_Controller {
     public function Upload_csv(){        
 
         $user_id = $this->input->post('user_id');
+        $date_create_import_user = $this->input->post('date_create');
 
         // ตรวจสอบว่า user_id ต้องไม่ว่าง
         if (empty($user_id)) {
@@ -80,6 +81,7 @@ class Customer extends CI_Controller {
 
         // เก็บ user_id ไว้ใน session สำหรับนำไปใช้ตอน import
         $this->session->set_userdata('user_id_for_import', $user_id);
+        $this->session->set_userdata('date_create_import_user', $date_create_import_user);
 
         // กำหนดค่าการอัปโหลดไฟล์
         $config['upload_path']   = './assets/upload/'; // โฟลเดอร์ที่ใช้เก็บไฟล์ CSV
@@ -120,11 +122,12 @@ class Customer extends CI_Controller {
             exit(json_encode(['rCode' => 405, 'rMsg' => 'Error', 'rData' => 'Not allow method']));
         }
 
-        $csv_file_name = $this->input->post('file_name');
+        $csv_file_name = $this->input->post('file_name');        
 
         if (empty($csv_file_name)) {
             exit(json_encode(['rCode' => 405, 'rMsg' => 'Error', 'rData' => 'Not allow empty file.']));
         }
+
         
         $file_path = './assets/upload/'.$csv_file_name;
 
@@ -136,6 +139,8 @@ class Customer extends CI_Controller {
         $totalRows = 0;
         $valid_rows = 0;
 
+        // ตรวจสอบวันที่ ที่จะต้องส่งมาก
+        $effect_datetime_job = $this->session->userdata('date_create_import_user').' '.date('H:i:s');
         $current_datetime = date('Y-m-d H:i:s');
 
         while (($row = fgetcsv($file, 1000, ",")) !== FALSE) {
@@ -176,7 +181,7 @@ class Customer extends CI_Controller {
                     'cstatus'           => 'Waiting',
                     'user_id'           => $this->session->userdata('user_id_for_import'),
                     'who_create'        => $this->session->userdata('user_id'),
-                    'date_create'       => $current_datetime,
+                    'date_create'       => $effect_datetime_job,
                     'who_update'        => $this->session->userdata('user_id'),
                     'date_update'       => $current_datetime
                 ];

@@ -431,6 +431,9 @@
                             text: 'ข้อมูลลูกค้าถูกบันทึกแล้ว',
                             timer: 2000,
                             showConfirmButton: false
+                        }).then(() => {
+                            // เมื่อคลิก OK จะทำการ redirect ไปยังหน้า Customer                            
+                            window.location.href = '<?php echo base_url('Customer'); ?>';
                         });
                     } else {
                        // แสดง SweetAlert เมื่อบันทึกไม่สำเร็จ

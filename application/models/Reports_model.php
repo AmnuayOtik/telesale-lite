@@ -96,6 +96,8 @@ class Reports_model extends CI_Model {
         $to_date   = $rData['to_date'] . ' 23:59:59';
 
         $this->db->select('customers.customer_id, customers.full_name AS full_name, customers.ref_user_id, customers.phone_number');
+        $this->db->select('customers.call_result_note,customers.line_account_note,customers.note');
+        $this->db->select('customers.last_activity,customers.missed_deposit');
         $this->db->select('customers.line_account, customers.call_datetime, customers.call_result, customers.notified_via_line, customers.cstatus');
         $this->db->select('users.full_name AS user_full_name'); // เพิ่ม full_name จากตาราง users
         $this->db->from('customers');
